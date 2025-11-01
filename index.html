@@ -1,0 +1,939 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Guardian - Protect Your Family When Seconds Count</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            color: white;
+            padding: 60px 20px 100px;
+            text-align: center;
+        }
+
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto 30px;
+            display: block;
+        }
+
+
+        .logo-text {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
+        }
+
+
+        .logo-text .shield {
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+
+        .hero .subheadline {
+            font-size: 1.4em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .cta-button {
+            display: inline-block;
+            background: #0d9488;
+            color: white;
+            padding: 18px 50px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+
+        .cta-button:hover {
+            background: #0f766e;
+            transform: translateY(-2px);
+        }
+
+
+        .cta-note {
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+
+        /* Problem Section */
+        .problem-section {
+            padding: 80px 20px;
+            background: #f9fafb;
+        }
+
+
+        .problem-section h2 {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #0f766e;
+        }
+
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+
+        .problem-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+
+        .problem-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+
+        .problem-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #0f766e;
+        }
+
+
+        .problem-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+
+        /* Solution Section */
+        .solution-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+
+        .solution-section h2 {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0f766e;
+        }
+
+
+        .solution-intro {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+
+        .feature {
+            display: flex;
+            gap: 20px;
+        }
+
+
+        .feature-icon {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            background: #ccfbf1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+        }
+
+
+        .feature-content h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #0f766e;
+        }
+
+
+        .feature-content p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 20px;
+            background: #f9fafb;
+        }
+
+
+        .how-it-works h2 {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #0f766e;
+        }
+
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+
+        .step {
+            text-align: center;
+        }
+
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #14b8a6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+
+        .step h3 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #0f766e;
+        }
+
+
+        .step p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+
+        /* Social Proof */
+        .social-proof {
+            padding: 60px 20px;
+            background: white;
+            text-align: center;
+        }
+
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+
+        .badge {
+            padding: 15px 30px;
+            background: #f9fafb;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #666;
+        }
+
+
+        .testimonial {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px;
+            background: #f9fafb;
+            border-radius: 12px;
+            font-style: italic;
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+
+        .testimonial-author {
+            margin-top: 20px;
+            font-style: normal;
+            font-weight: 600;
+            color: #0f766e;
+        }
+
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 80px 20px;
+            background: #f9fafb;
+        }
+
+
+        .pricing-section h2 {
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #0f766e;
+        }
+
+
+        .pricing-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+
+        .price {
+            font-size: 3em;
+            font-weight: 700;
+            color: #0f766e;
+            margin-bottom: 10px;
+        }
+
+
+        .price-period {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+
+        .pricing-features {
+            text-align: left;
+            margin: 30px 0;
+        }
+
+
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+
+        .check-icon {
+            color: #10b981;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+
+        /* Final CTA Section */
+        .final-cta {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            color: white;
+            text-align: center;
+        }
+
+
+        .final-cta h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+
+        .final-cta p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+
+        /* Footer */
+        footer {
+            padding: 30px 20px;
+            background: #1e293b;
+            color: white;
+            text-align: center;
+        }
+
+
+        footer a {
+            color: #93c5fd;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s;
+        }
+
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+
+        .modal-content {
+            background-color: white;
+            padding: 50px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2em;
+            font-weight: 300;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+
+        .modal-content h2 {
+            color: #0f766e;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #14b8a6;
+        }
+
+
+        .submit-button {
+            width: 100%;
+            background: #0d9488;
+            color: white;
+            padding: 18px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+
+        .submit-button:hover {
+            background: #0f766e;
+        }
+
+
+        .privacy-note {
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #999;
+            text-align: center;
+        }
+
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+
+        .success-message.active {
+            display: block;
+        }
+
+
+        .success-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+
+        .success-message h3 {
+            color: #0f766e;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+
+        .success-message p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+
+            .hero .subheadline {
+                font-size: 1.1em;
+            }
+
+
+            .problem-section h2,
+            .solution-section h2,
+            .how-it-works h2,
+            .pricing-section h2 {
+                font-size: 1.8em;
+            }
+
+
+            .features {
+                gap: 40px;
+            }
+
+
+            .modal-content {
+                padding: 30px;
+            }
+
+
+            .modal-content h2 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <!-- Your Logo →
+<img class="logo" src="/assets/logo.png" alt="My Guardian logo">            
+            <h1>Keep Your Family Safe When Every Second Counts</h1>
+            <p class="subheadline">Get personalized, step-by-step guidance for your household in the first 5 minutes of a wildfire, earthquake, or flood—when quick action saves lives</p>
+            <a href="#" class="cta-button" onclick="openModal(event)">Start Your Free Trial</a>
+            <p class="cta-note">3-minute setup • No credit card required • Pause anytime</p>
+        </div>
+    </section>
+
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <h2>When Disaster Strikes, Chaos Takes Over</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">⚠️</div>
+                    <h3>Alerts Don't Tell You What to Do</h3>
+                    <p>You get the emergency alert, but then what? Where do you shelter? Which route is safe? What about the kids and dog?</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Every Family Member Is Different</h3>
+                    <p>Generic advice doesn't work when you have a toddler, a teenager, elderly parents, and pets—all with different needs</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⏱️</div>
+                    <h3>The First 5 Minutes Are Everything</h3>
+                    <p>You're juggling work, kids' activities, and daily life. When disaster hits, you need instant, clear guidance—not guesswork</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <h2>My Guardian Tells You Exactly What to Do, Right Now</h2>
+            <p class="solution-intro">Personalized safety guidance designed for your household—so you can protect everyone, including your pets, in the moments that matter most</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-content">
+                        <h3>Instant, Personalized Guidance</h3>
+                        <p>When disaster strikes, get step-by-step instructions tailored to YOUR family: your kids' ages, your elderly parents' mobility, your dog's location, and your home's safe spots</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-content">
+                        <h3>Location-Precise Action Plans</h3>
+                        <p>No generic advice. Get exact shelter locations, safe evacuation routes, and real-time updates based on where you live and what's happening right now</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">👪</div>
+                    <div class="feature-content">
+                        <h3>Track Everyone You Love</h3>
+                        <p>Know where your kids, partner, and elderly parents are. Send check-ins and receive location updates—all in one calm, organized feed</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎮</div>
+                    <div class="feature-content">
+                        <h3>Stay Ready With Micro-Trainings</h3>
+                        <p>On calm days, practice with quick 2-minute trainings and family games. Keep your plan fresh without the overwhelm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>Get Protected in 3 Minutes</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Quick Setup</h3>
+                    <p>Enter your address. My Guardian automatically detects your risk zones and suggests safe spots and evacuation routes</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Add Your Family</h3>
+                    <p>Tell us about your household: kids, elderly parents, pets, any health considerations. We'll personalize everything for you</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Enable Alerts</h3>
+                    <p>Choose "Essential-only" alerts to avoid notification fatigue. You'll only hear from us when it truly matters</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>You're Ready</h3>
+                    <p>Print or share your one-page family plan. Practice with quick trainings. Rest easy knowing you're prepared</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="trust-badges">
+                <div class="badge">✓ Trusted by 50,000+ families</div>
+                <div class="badge">✓ Featured by local news</div>
+                <div class="badge">✓ 4.8★ App Store rating</div>
+            </div>
+            <div class="testimonial">
+                "When the wildfire alert came through at 2am, I was panicking. My Guardian told me exactly what to grab, where to go, and which route to take with my two kids and our dog. We made it out safely because I wasn't guessing—I had a clear plan designed for MY family."
+                <div class="testimonial-author">— Sarah M., Mother of Two, Wildfire Zone Resident</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Pricing -->
+    <section class="pricing-section">
+        <div class="container">
+            <h2>Simple, Family-Friendly Pricing</h2>
+            <div class="pricing-card">
+                <div class="price">$89</div>
+                <div class="price-period">per year for your whole family</div>
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        <span>Unlimited family members and pets</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        <span>Personalized action plans for each person</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        <span>Real-time location tracking & check-ins</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        <span>Micro-trainings and family games</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        <span>Essential-only alert mode</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        <span>Pause your subscription anytime</span>
+                    </div>
+                </div>
+                <a href="#" class="cta-button" onclick="openModal(event)">Try Free for 14 Days</a>
+                <p class="cta-note">Cancel anytime • No credit card for trial</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Don't Wait Until It's Too Late</h2>
+            <p>Join thousands of families who are already prepared. Get personalized safety guidance in the moments that matter most.</p>
+            <a href="#" class="cta-button" onclick="openModal(event)">Start Your Free Trial Now</a>
+        </div>
+    </section>
+
+
+    <!-- Email Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            
+            <div id="formContainer">
+                <h2>Start Your Free 14-Day Trial</h2>
+                <p>Join 50,000+ families who are already prepared. No credit card required.</p>
+                
+                <form id="signupForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Sarah Johnson">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="sarah@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zipcode">Zip Code</label>
+                        <input type="text" id="zipcode" name="zipcode" required placeholder="94550" pattern="[0-9]{5}">
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Get Started Free</button>
+                    
+                    <p class="privacy-note">We respect your privacy. Unsubscribe anytime.</p>
+                </form>
+            </div>
+            
+            <div id="successMessage" class="success-message">
+                <div class="success-icon">✓</div>
+                <h3>You're All Set!</h3>
+                <p>Check your email for next steps to protect your family. We'll send you your personalized setup guide within 5 minutes.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#contact">Contact Us</a>
+            <p style="margin-top: 20px; opacity: 0.7;">&copy; 2025 My Guardian. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        function openModal(event) {
+            event.preventDefault();
+            document.getElementById('signupModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+
+        function closeModal() {
+            document.getElementById('signupModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Reset form after closing
+            setTimeout(() => {
+                document.getElementById('formContainer').style.display = 'block';
+                document.getElementById('successMessage').classList.remove('active');
+                document.getElementById('signupForm').reset();
+            }, 300);
+        }
+
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                zipcode: document.getElementById('zipcode').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Log to console (in production, you'd send this to your backend)
+            console.log('New signup:', formData);
+            
+            // Store in localStorage for demonstration
+            let signups = JSON.parse(localStorage.getItem('myGuardianSignups') || '[]');
+            signups.push(formData);
+            localStorage.setItem('myGuardianSignups', JSON.stringify(signups));
+            
+            // Show success message
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('successMessage').classList.add('active');
+            
+            // Optional: Send to your email collection service
+            // fetch('YOUR_API_ENDPOINT', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(formData)
+            // });
+            
+            // Auto-close after 3 seconds
+            setTimeout(() => {
+                closeModal();
+            }, 3000);
+        }
+
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('signupModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
