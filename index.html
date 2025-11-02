@@ -636,6 +636,40 @@
         }
     </style>
 </head>
+
+<script>
+const WEB_APP_URL = 'https://script.google.com/u/0/home/projects/1abIfB0sY0gPY3_Gi64uSyZVfXwoiNJby8J5xhh5pch3-NRN1fI2MwCsU/edit';
+
+(function seedHiddenFields(){
+  document.getElementById('page_url').value = location.href;
+  document.getElementById('referrer').value = document.referrer || '';
+  document.getElementById('user_agent').value = navigator.userAgent;
+})();
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const hp = document.getElementById('company');
+  if (hp && hp.value) return; // bot
+
+  const form = document.getElementById('signupForm');
+  const data = new FormData(form);
+
+  try {
+    const res = await fetch(WEB_APP_URL, { method: 'POST', body: data });
+    const json = await res.json().catch(() => ({}));
+    // show success state
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('successMessage').classList.add('active');
+    setTimeout(() => { if (typeof closeModal === 'function') closeModal(); }, 2500);
+    form.reset();
+  } catch (err) {
+    alert('Submission failed. Please try again.');
+  }
+}
+</script>
+
+
+    
 <body>
     <!-- Hero Section -->
     <section class="hero">
@@ -820,25 +854,33 @@
                 <p>Join 50,000+ families who are already prepared. No credit card required.</p>
                 
                 <form id="signupForm" onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Sarah Johnson">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required placeholder="sarah@example.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="zipcode">Zip Code</label>
-                        <input type="text" id="zipcode" name="zipcode" required placeholder="94550" pattern="[0-9]{5}">
-                    </div>
-                    
-                    <button type="submit" class="submit-button">Get Started Free</button>
-                    
-                    <p class="privacy-note">We respect your privacy. Unsubscribe anytime.</p>
+                  <div class="form-group">
+                    <label for="name"> Name</label>
+                    <input id="name" name="name" type="text" required placeholder="Sarah">
+                  </div>
+                
+                  <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input id="email" name="email" type="email" required placeholder="sarah@example.com">
+                  </div>
+                
+                  <div class="form-group">
+                    <label for="zipcode">Zip Code</label>
+                    <input id="zipcode" name="zipcode" type="text" required pattern="[0-9]{5}" placeholder="94550">
+                  </div>
+                
+                  <!-- Helpful context (auto-filled) -->
+                  <input type="hidden" name="page_url" id="page_url">
+                  <input type="hidden" name="referrer" id="referrer">
+                  <input type="hidden" name="user_agent" id="user_agent">
+                
+                  <!-- Honeypot (spam trap) -->
+                  <input type="text" name="company" id="company" style="display:none">
+                
+                  <button type="submit" class="submit-button">Get Started Free</button>
+                  <p class="privacy-note">We respect your privacy. Unsubscribe anytime.</p>
                 </form>
+
             </div>
             
             <div id="successMessage" class="success-message">
@@ -937,3 +979,4 @@
 </body>
 
 </html>
+
