@@ -638,33 +638,25 @@
 </head>
 
 <script>
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxs00azZcoujnPozvP4a6uIH9tLahfhAcOprNoSNapzS5kSFGv4GpcH3hRBJ5RDKtJN/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyzgIkZdVypXwKajaaqbEmhAbjJAFkKTbjsFjWBt-a8P6WhpSdO-4QRkYVlxBy_zUPb/exec';
 
-(function seedHiddenFields(){
-  document.getElementById('page_url').value = location.href;
-  document.getElementById('referrer').value = document.referrer || '';
-  document.getElementById('user_agent').value = navigator.userAgent;
-})();
+function toURLEncoded(form){
+  return new URLSearchParams(new FormData(form)); // application/x-www-form-urlencoded
+}
 
-async function handleSubmit(e) {
+async function handleSubmit(e){
   e.preventDefault();
-  const hp = document.getElementById('company');
-  if (hp && hp.value) return; // bot
-
   const form = document.getElementById('signupForm');
-  const data = new FormData(form);
-
-  try {
-    const res = await fetch(WEB_APP_URL, { method: 'POST', body: data });
-    const json = await res.json().catch(() => ({}));
-    // show success state
-    document.getElementById('formContainer').style.display = 'none';
-    document.getElementById('successMessage').classList.add('active');
-    setTimeout(() => { if (typeof closeModal === 'function') closeModal(); }, 2500);
-    form.reset();
-  } catch (err) {
-    alert('Submission failed. Please try again.');
-  }
+  await fetch(WEB_APP_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+    body: toURLEncoded(form)
+  });
+  // success UI
+  document.getElementById('formContainer').style.display = 'none';
+  document.getElementById('successMessage').classList.add('active');
+  setTimeout(()=>{ if (typeof closeModal==='function') closeModal(); }, 2000);
+  form.reset();
 }
 </script>
 
@@ -989,6 +981,7 @@ async function handleSubmit(e) {
 </body>
 
 </html>
+
 
 
 
