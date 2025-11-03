@@ -916,6 +916,12 @@ async function handleSubmit(e){
     <script>
         function openModal(event) {
             event.preventDefault();
+            
+            // Populate hidden fields when modal opens
+            document.getElementById('page_url').value = window.location.href;
+            document.getElementById('referrer').value = document.referrer;
+            document.getElementById('user_agent').value = navigator.userAgent;
+            
             document.getElementById('signupModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -951,6 +957,7 @@ async function handleSubmit(e){
 </body>
 
 </html>
+
 
 
 
