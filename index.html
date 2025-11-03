@@ -637,6 +637,23 @@
     </style>
 </head>
 
+
+<script>
+// Clear visible fields on load (helps with Safari/Chrome bfcache & autofill)
+window.addEventListener('pageshow', function () {
+  const f = document.getElementById('signupForm');
+  if (!f) return;
+  ['name','email','zipcode'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+});
+
+// You likely already reset after submit; keep this in your handler:
+  // form.reset();  // leave this line in your handleSubmit()
+</script>
+
+    
 <script>
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyzgIkZdVypXwKajaaqbEmhAbjJAFkKTbjsFjWBt-a8P6WhpSdO-4QRkYVlxBy_zUPb/exec';
 
@@ -856,20 +873,20 @@ async function handleSubmit(e){
                 -->
 
                 
-                <form id="signupForm" onsubmit="handleSubmit(event)">
+                <form id="signupForm" onsubmit="handleSubmit(event)" autocomplete="off">
                   <div class="form-group">
                     <label for="name"> Name</label>
-                    <input id="name" name="name" type="text" required placeholder="Sarah">
+                    <input id="name" name="name" type="text" required placeholder="Sarah" autocomplete="given-name" autocapitalize="none" autocorrect="off">
                   </div>
                 
                   <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input id="email" name="email" type="email" required placeholder="sarah@example.com">
+                    <input id="email" name="email" type="email" required placeholder="sarah@example.com" autocomplete="given-name" autocapitalize="none" autocorrect="off">
                   </div>
                 
                   <div class="form-group">
                     <label for="zipcode">Zip Code</label>
-                    <input id="zipcode" name="zipcode" type="text" required pattern="[0-9]{5}" placeholder="94550">
+                    <input id="zipcode" name="zipcode" type="text" required pattern="[0-9]{5}" placeholder="94550" autocomplete="given-name" autocapitalize="none" autocorrect="off">
                   </div>
                 
                   <!-- Helpful context (auto-filled) -->
@@ -983,6 +1000,7 @@ async function handleSubmit(e){
 </body>
 
 </html>
+
 
 
 
