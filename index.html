@@ -655,7 +655,7 @@ window.addEventListener('pageshow', function () {
 
     
 <script>
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyzgIkZdVypXwKajaaqbEmhAbjJAFkKTbjsFjWBt-a8P6WhpSdO-4QRkYVlxBy_zUPb/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyhhOaNyEuVHGbAfgCZQ-VXt5AeatEi1uuYLxf4_wIO-3y8rc8Jt75rc8moeLnUbWly/exec';
 
 function toURLEncoded(form){
   return new URLSearchParams(new FormData(form)); // application/x-www-form-urlencoded
@@ -863,7 +863,7 @@ async function handleSubmit(e){
                 <p>Join 50,000+ families who are already prepared. No credit card required.</p>
 
                 
-                
+                <!--
                 <form action="https://script.google.com/macros/s/AKfycbx0P7KOO2kF9VLQmvPpXiYF_fk4PIIGgbrGnHmPb3w48rxEY5Y19bFKJc0YBar4xyu9/exec" method="POST">
                   <input name="first_name" placeholder="First" required>
                   <input name="last_name"  placeholder="Last" required>
@@ -871,23 +871,23 @@ async function handleSubmit(e){
                   <input name="zipcode"    pattern="[0-9]{5}" placeholder="94550" required>
                   <button type="submit">Test Submit</button>
                 </form>
-                
+                -->
 
-                <!-- USE TO TEST THE SCRIPT
+                <!-- USE TO TEST THE SCRIPT -->
                 <form id="signupForm" onsubmit="handleSubmit(event)" autocomplete="off">
                   <div class="form-group">
-                    <label for="name"> Name</label>
-                    <input id="name" name="name" type="text" required placeholder="Sarah" autocomplete="given-name" autocapitalize="none" autocorrect="off">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" required placeholder="Sarah" autocomplete="off" autocapitalize="none" autocorrect="off">
                   </div>
                 
                   <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input id="email" name="email" type="email" required placeholder="sarah@example.com" autocomplete="given-name" autocapitalize="none" autocorrect="off">
+                    <input id="email" name="email" type="email" required placeholder="sarah@example.com" autocomplete="off" autocapitalize="none" autocorrect="off">
                   </div>
                 
                   <div class="form-group">
                     <label for="zipcode">Zip Code</label>
-                    <input id="zipcode" name="zipcode" type="text" required pattern="[0-9]{5}" placeholder="94550" autocomplete="given-name" autocapitalize="none" autocorrect="off">
+                    <input id="zipcode" name="zipcode" type="text" required pattern="[0-9]{5}" placeholder="94550" autocomplete="off" autocapitalize="none" autocorrect="off">
                   </div>
                 
                   <!-- Helpful context (auto-filled) -->
@@ -901,7 +901,6 @@ async function handleSubmit(e){
                   <button type="submit" class="submit-button">Get Started Free</button>
                   <p class="privacy-note">We respect your privacy. Unsubscribe anytime.</p>
                 </form>
-                -->
                 
             </div>
             
@@ -1001,6 +1000,7 @@ async function handleSubmit(e){
 </body>
 
 </html>
+
 
 
 
