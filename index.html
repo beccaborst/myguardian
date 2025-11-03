@@ -863,16 +863,17 @@ async function handleSubmit(e){
                 <p>Join 50,000+ families who are already prepared. No credit card required.</p>
 
                 
-                <!-- USE TO TEST THE SCRIPT
-                <form action="https://script.google.com/macros/s/AKfycbxWTonGxmsSpOpaAXCpyUaCvQ-gUQYSrPBNlg7sWuyC_UJT_-z1NxucNpA5jPJo-6Jp/exec" method="POST">
-                  <input name="first_name" value="Test">
-                  <input name="email" value="test@example.com">
-                  <input name="zipcode" value="99999">
-                  <button type="submit">Send</button>
-                </form>
-                -->
-
                 
+                <form action="https://script.google.com/macros/s/AKfycbyzgIkZdVypXwKajaaqbEmhAbjJAFkKTbjsFjWBt-a8P6WhpSdO-4QRkYVlxBy_zUPb/exec" method="POST">
+                  <input name="first_name" placeholder="First" required>
+                  <input name="last_name"  placeholder="Last" required>
+                  <input name="email"      type="email" placeholder="you@example.com" required>
+                  <input name="zipcode"    pattern="[0-9]{5}" placeholder="94550" required>
+                  <button type="submit">Test Submit</button>
+                </form>
+                
+
+                <!-- USE TO TEST THE SCRIPT
                 <form id="signupForm" onsubmit="handleSubmit(event)" autocomplete="off">
                   <div class="form-group">
                     <label for="name"> Name</label>
@@ -900,7 +901,7 @@ async function handleSubmit(e){
                   <button type="submit" class="submit-button">Get Started Free</button>
                   <p class="privacy-note">We respect your privacy. Unsubscribe anytime.</p>
                 </form>
-                
+                -->
                 
             </div>
             
@@ -1000,6 +1001,7 @@ async function handleSubmit(e){
 </body>
 
 </html>
+
 
 
 
