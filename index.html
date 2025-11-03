@@ -852,7 +852,16 @@ async function handleSubmit(e) {
             <div id="formContainer">
                 <h2>Start Your Free 14-Day Trial</h2>
                 <p>Join 50,000+ families who are already prepared. No credit card required.</p>
-                
+
+
+                <form action="https://script.google.com/macros/s/AKfycbxs00azZcoujnPozvP4a6uIH9tLahfhAcOprNoSNapzS5kSFGv4GpcH3hRBJ5RDKtJN/exec" method="POST">
+                  <input name="first_name" value="Test">
+                  <input name="email" value="test@example.com">
+                  <input name="zipcode" value="99999">
+                  <button type="submit">Send</button>
+                </form>
+
+                <!--
                 <form id="signupForm" onsubmit="handleSubmit(event)">
                   <div class="form-group">
                     <label for="name"> Name</label>
@@ -880,7 +889,8 @@ async function handleSubmit(e) {
                   <button type="submit" class="submit-button">Get Started Free</button>
                   <p class="privacy-note">We respect your privacy. Unsubscribe anytime.</p>
                 </form>
-
+                -->
+                
             </div>
             
             <div id="successMessage" class="success-message">
@@ -979,5 +989,6 @@ async function handleSubmit(e) {
 </body>
 
 </html>
+
 
 
