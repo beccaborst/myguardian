@@ -887,39 +887,6 @@ window.addEventListener('pageshow', function () {
         </div>
     </footer>
 
-    <script>
-        function scrollToContact() {
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function scrollToSolution() {
-            document.getElementById('solution').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Smooth reveal animations on scroll
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -80px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.urgency-card, .problem-card, .solution-card, .value-card, .diff-card, .proof-card').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.7s ease';
-            observer.observe(el);
-        });
-
-    </script>
-
 <!-- Signup Modal -->
 <div id="signupModal" class="modal">
   <div class="modal-content">
@@ -964,9 +931,8 @@ window.addEventListener('pageshow', function () {
   </div>
 </div>
 
-     <script>
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxa41Pt7lpFgsUcUKEZB7M4eHDkbXMdb2bdavfkp4EUOjaCjZOkuRhYt1MFWeCmd4qu/exec';
 
+<script>
 function scrollToContact() {
   document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
 }
@@ -1010,62 +976,27 @@ function closeModal() {
   }, 200);
 }
 
-// Close modal when clicking outside modal-content
+// Close modal when clicking outside the modal-content
 window.addEventListener('click', function(event) {
   const modal = document.getElementById('signupModal');
-  if (modal && event.target === modal) closeModal();
-});
-
-// Close modal with Escape
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') closeModal();
-});
-
-// Form helpers
-function toURLEncoded(form) {
-  return new URLSearchParams(new FormData(form));
-}
-
-async function handleSubmit(e) {
-  e.preventDefault();
-  const form = document.getElementById('signupForm');
-  if (!form) return;
-
-  try {
-    await fetch(WEB_APP_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-      body: toURLEncoded(form)
-    });
-
-    // success UI
-    const formContainer = document.getElementById('formContainer');
-    const success = document.getElementById('successMessage');
-
-    if (formContainer) formContainer.style.display = 'none';
-    if (success) success.classList.add('active');
-
-    setTimeout(() => closeModal(), 1800);
-    form.reset();
-  } catch (err) {
-    console.error('Form submit failed:', err);
-    alert('Something went wrong. Please try again.');
+  if (modal && event.target === modal) {
+    closeModal();
   }
-}
+});
 
-// Wire up form + clear autofill on bfcache restore
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeModal();
+  }
+});
+
+// Attach submit handler defined in your head script
 window.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('signupForm');
-  if (form) form.addEventListener('submit', handleSubmit);
-});
-
-window.addEventListener('pageshow', function () {
-  const f = document.getElementById('signupForm');
-  if (!f) return;
-  ['name','email','zipcode'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
+  if (form && typeof handleSubmit === 'function') {
+    form.addEventListener('submit', handleSubmit);
+  }
 });
 
 // Smooth reveal animations on scroll
@@ -1091,10 +1022,11 @@ document.querySelectorAll('.urgency-card, .problem-card, .solution-card, .value-
 });
 </script>
 
-
+    
     
 </body>
 </html>
+
 
 
 
