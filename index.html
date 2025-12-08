@@ -57,7 +57,7 @@
         .logo {
             max-width: 400px;
             height: auto;
-            margin: 0 auto 30px;
+            margin: 0 0 30px 0;
             display: block;
             font-size: 26px;
             font-weight: 700;
@@ -602,8 +602,6 @@ async function handleSubmit(e){
 }
 </script>
 
-
-
     
 
 
@@ -785,8 +783,8 @@ async function handleSubmit(e){
         <h2>Interested in Exploring My Guardian?</h2>
         <p>Connect with us to learn more about our approach to climate loss prevention</p>
         <div class="cta-buttons">
-            <button class="cta-primary" onclick="window.location.href='mailto:rebeca@myguardian.tech?subject=Interested in Learning More - My Guardian'">Express Interest</button>
-            <button class="cta-secondary" onclick="window.location.href='mailto:rebeca@myguardian.tech?subject=Pilot Inquiry - My Guardian'">Inquire About Future Pilots</button>
+            <button class="cta-primary" onclick="window.location.href='mailto:rebeca@myguardian.tech?subject=Interested in Learning More - My Guardian'">Get Pilot Updates</button>
+            <button class="cta-secondary" onclick="window.location.href='mailto:rebeca@myguardian.tech?subject=Pilot Inquiry - My Guardian'">Discuss Your Needs</button>
         </div>
     </div>
 
@@ -828,9 +826,55 @@ async function handleSubmit(e){
             el.style.transition = 'all 0.7s ease';
             observer.observe(el);
         });
+
+        <script>
+        function openModal(event) {
+            event.preventDefault();
+            
+            // Populate hidden fields when modal opens
+            document.getElementById('page_url').value = window.location.href;
+            document.getElementById('referrer').value = document.referrer;
+            document.getElementById('user_agent').value = navigator.userAgent;
+            
+            document.getElementById('signupModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('signupModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            // Reset form after closing
+            setTimeout(() => {
+                document.getElementById('formContainer').style.display = 'block';
+                document.getElementById('successMessage').classList.remove('active');
+                document.getElementById('signupForm').reset();
+            }, 300);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('signupModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+
+
+
+        
     </script>
 </body>
 </html>
+
 
 
 
