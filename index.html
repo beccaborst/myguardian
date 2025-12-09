@@ -726,9 +726,15 @@
 
         // Klaviyo form trigger - Replace 'YepEtH' with your actual Klaviyo Form ID
         function openKlaviyoForm(event) {
-            event.preventDefault();
-            window._klOnsite = window._klOnsite || [];
-            window._klOnsite.push(['openForm', 'YepEtH']); // REPLACE 'YepEtH' with your Form ID
+            if (event) event.preventDefault();
+                window._klOnsite = window._klOnsite || [];
+                window._klOnsite.push(['openForm', 'YepEtH']);
+            
+                // small retry in case the script loads a beat late
+                setTimeout(() => {
+                  window._klOnsite = window._klOnsite || [];
+                  window._klOnsite.push(['openForm', 'YepEtH']);
+                }, 300);
         }
 
         // Smooth reveal animations on scroll
@@ -755,3 +761,4 @@
     </script>
 </body>
 </html>
+
