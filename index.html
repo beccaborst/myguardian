@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Guardian - Turn Policyholders into Partners in Natural Hazard Loss Prevention</title>
+    
+    <!-- ADD KLAVIYO SCRIPT HERE - Replace YOUR_COMPANY_ID with your actual Klaviyo Company ID -->
+    <script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=S3gSbG"></script>
+    
     <style>
         * {
             margin: 0;
@@ -66,7 +70,6 @@
             align-items: center;
             gap: 8px;
         }
-        
 
         .nav-btn {
             background: white;
@@ -455,29 +458,6 @@
             line-height: 1.6;
         }
 
-        .testimonial {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            max-width: 800px;
-            margin: 0 auto;
-            border-left: 4px solid #3b82f6;
-        }
-
-        .testimonial-text {
-            font-size: 20px;
-            font-style: italic;
-            color: #333;
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        .testimonial-author {
-            color: #666;
-            font-size: 16px;
-        }
-
         .cta-section {
             text-align: center;
             background: linear-gradient(135deg, #0a1828 0%, #1a3a52 100%);
@@ -556,146 +536,8 @@
                 grid-template-columns: 1fr;
             }
         }
-
-
-        /* Modal base */
-        .modal {
-          position: fixed;
-          inset: 0;
-          background: rgba(10, 24, 40, 0.6);
-          backdrop-filter: blur(6px);
-          display: none;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-          z-index: 9999;
-        }
-        
-        .modal.active {
-          display: flex;
-        }
-        
-        .modal-content {
-          width: 100%;
-          max-width: 520px;
-          background: white;
-          border-radius: 16px;
-          padding: 36px 32px 28px;
-          position: relative;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-          animation: modalIn 0.2s ease;
-        }
-        
-        @keyframes modalIn {
-          from { transform: translateY(10px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .modal-close {
-          position: absolute;
-          top: 14px;
-          right: 14px;
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
-          border: 1px solid #e5e7eb;
-          background: white;
-          font-size: 22px;
-          cursor: pointer;
-          line-height: 1;
-        }
-        
-        .modal-title {
-          font-size: 28px;
-          font-weight: 800;
-          margin-bottom: 6px;
-          letter-spacing: -0.3px;
-          color: #0a1828;
-        }
-        
-        .modal-subtitle {
-          color: #556;
-          margin-bottom: 22px;
-        }
-        
-        .field {
-          margin-bottom: 14px;
-        }
-        
-        .field label {
-          display: block;
-          font-size: 13px;
-          font-weight: 600;
-          color: #334;
-          margin-bottom: 6px;
-        }
-        
-        .field input {
-          width: 100%;
-          padding: 12px 12px;
-          border-radius: 10px;
-          border: 1px solid #e5e7eb;
-          font-size: 15px;
-          outline: none;
-        }
-        
-        .field input:focus {
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
-        }
-        
-        .modal-submit {
-          width: 100%;
-          margin-top: 10px;
-        }
-        
-        /* Success state */
-        .success-message {
-          display: none;
-          text-align: center;
-          padding: 24px 10px 10px;
-        }
-        
-        .success-message.active {
-          display: block;
-        }
-        
-        .success-icon {
-          font-size: 34px;
-          margin-bottom: 8px;
-        }
-        
-        .success-title {
-          font-size: 22px;
-          font-weight: 800;
-          margin-bottom: 4px;
-          color: #0a1828;
-        }
-        
-        .success-subtitle {
-          color: #556;
-          font-size: 15px;
-        }
-        
     </style>
 </head>
-
-<script>
-// Clear visible fields on load (helps with Safari/Chrome bfcache & autofill)
-window.addEventListener('pageshow', function () {
-  const f = document.getElementById('signupForm');
-  if (!f) return;
-  ['name','email','zipcode'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
-});
-
-// You likely already reset after submit; keep this in your handler:
-  // form.reset();  // leave this line in your handleSubmit()
-</script>
-
-    
 <body>
     <div class="hero">
         <nav>
@@ -706,8 +548,7 @@ window.addEventListener('pageshow', function () {
             <h1>Turn Policyholders into Partners in Climate Loss Prevention</h1>
             <p class="hero-subheadline">My Guardian helps P&C insurers reduce losses, satisfy regulatory expectations, and build year-round relationships with policyholders.</p>
             <div class="cta-group">
-                <button class="cta-primary" onclick="scrollToContact()">Learn About Piloting</button>
-                <!-- <button class="cta-secondary" onclick="scrollToSolution()">See How It Works</button> -->
+                <button class="cta-primary" onclick="openKlaviyoForm(event)">Learn About Piloting</button>
             </div>
         </div>
     </div>
@@ -777,12 +618,6 @@ window.addEventListener('pageshow', function () {
                 <h3>AI Coach</h3>
                 <p>For more advanced preparedness guidance, drawing from extensive and trustworthy sources.</p>
             </div>
-            <!--<div class="solution-card">
-                <div class="solution-icon">📊</div>
-                <h3>Behavioral Dataset</h3>
-                <p>Proprietary, aggregated insights reveal what works by peril, region, and customer segment—improving risk scoring and underwriting accuracy.</p>
-            </div>
-            -->
         </div>
     </section>
 
@@ -861,20 +696,13 @@ window.addEventListener('pageshow', function () {
                 <div class="proof-description">Building the platform with insights from regional carriers in Florida and California</div>
             </div>
         </div>
-        
-        <!-- <div class="testimonial">
-            <p class="testimonial-text">"This is what regulators want to see. A solution that proves we're proactive."</p>
-            <p class="testimonial-author">— P&C Innovation Lead</p>
-        </div>
-        -->
     </section>
 
     <div class="cta-section" id="contact">
         <h2>Interested in Exploring My Guardian?</h2>
         <p>Connect with us to learn more about our approach to climate loss prevention</p>
         <div class="cta-buttons">
-            <!-- <button class="cta-primary" onclick="window.location.href='mailto:rebeca@myguardian.tech?subject=Interested in Learning More - My Guardian'">Get Pilot Updates</button>  -->
-            <button class="cta-primary" onclick="openModal(event)">Get Pilot Updates</button>
+            <button class="cta-primary" onclick="openKlaviyoForm(event)">Get Pilot Updates</button>
             <button class="cta-secondary" onclick="window.location.href='mailto:rebeca@myguardian.tech?subject=Pilot Inquiry - My Guardian'">Discuss Your Needs</button>
         </div>
     </div>
@@ -887,148 +715,43 @@ window.addEventListener('pageshow', function () {
         </div>
     </footer>
 
-<!-- Signup Modal -->
-<div id="signupModal" class="modal">
-  <div class="modal-content">
-    <button class="modal-close" type="button" aria-label="Close" onclick="closeModal()">×</button>
+    <script>
+        function scrollToContact() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
 
-    <div id="formContainer">
-      <h3 class="modal-title">Get Pilot Updates</h3>
-      <p class="modal-subtitle">We’ll share pilot milestones and early access details.</p>
+        function scrollToSolution() {
+            document.getElementById('solution').scrollIntoView({ behavior: 'smooth' });
+        }
 
-      <form id="signupForm">
-        <div class="field">
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" placeholder="Your name" required />
-        </div>
+        // Klaviyo form trigger - Replace 'YepEtH' with your actual Klaviyo Form ID
+        function openKlaviyoForm(event) {
+            event.preventDefault();
+            window._klOnsite = window._klOnsite || [];
+            window._klOnsite.push(['openForm', 'YepEtH']); // REPLACE 'YepEtH' with your Form ID
+        }
 
-        <div class="field">
-          <label for="email">Work email</label>
-          <input id="email" name="email" type="email" placeholder="you@company.com" required />
-        </div>
+        // Smooth reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -80px 0px'
+        };
 
-        <div class="field">
-          <label for="zipcode">Zip code (optional)</label>
-          <input id="zipcode" name="zipcode" type="text" placeholder="e.g., 94107" />
-        </div>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-        <!-- Hidden context fields -->
-        <input id="page_url" name="page_url" type="hidden" />
-        <input id="referrer" name="referrer" type="hidden" />
-        <input id="user_agent" name="user_agent" type="hidden" />
-
-        <button class="cta-primary modal-submit" type="submit">
-          Send me updates
-        </button>
-      </form>
-    </div>
-
-    <div id="successMessage" class="success-message">
-      <div class="success-icon">✅</div>
-      <div class="success-title">You’re on the list!</div>
-      <div class="success-subtitle">We’ll be in touch soon.</div>
-    </div>
-  </div>
-</div>
-
-
-<script>
-function scrollToContact() {
-  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-}
-
-function scrollToSolution() {
-  document.getElementById('solution').scrollIntoView({ behavior: 'smooth' });
-}
-
-// Modal controls
-function openModal(event) {
-  if (event) event.preventDefault();
-
-  // Populate hidden fields
-  const page = document.getElementById('page_url');
-  const ref = document.getElementById('referrer');
-  const ua = document.getElementById('user_agent');
-
-  if (page) page.value = window.location.href;
-  if (ref) ref.value = document.referrer || '';
-  if (ua) ua.value = navigator.userAgent;
-
-  const modal = document.getElementById('signupModal');
-  if (modal) modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  const modal = document.getElementById('signupModal');
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = 'auto';
-
-  // Reset UI state
-  setTimeout(() => {
-    const formContainer = document.getElementById('formContainer');
-    const success = document.getElementById('successMessage');
-    const form = document.getElementById('signupForm');
-
-    if (formContainer) formContainer.style.display = 'block';
-    if (success) success.classList.remove('active');
-    if (form) form.reset();
-  }, 200);
-}
-
-// Close modal when clicking outside the modal-content
-window.addEventListener('click', function(event) {
-  const modal = document.getElementById('signupModal');
-  if (modal && event.target === modal) {
-    closeModal();
-  }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') {
-    closeModal();
-  }
-});
-
-// Attach submit handler defined in your head script
-window.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('signupForm');
-  if (form && typeof handleSubmit === 'function') {
-    form.addEventListener('submit', handleSubmit);
-  }
-});
-
-// Smooth reveal animations on scroll
-const observerOptions = {
-  threshold: 0.15,
-  rootMargin: '0px 0px -80px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
-}, observerOptions);
-
-document.querySelectorAll('.urgency-card, .problem-card, .solution-card, .value-card, .diff-card, .proof-card').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
-  el.style.transition = 'all 0.7s ease';
-  observer.observe(el);
-});
-</script>
-
-    
-    
+        document.querySelectorAll('.urgency-card, .problem-card, .solution-card, .value-card, .diff-card, .proof-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.7s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
-
