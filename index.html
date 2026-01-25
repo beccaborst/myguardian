@@ -674,9 +674,6 @@
 </head>
 
 <script>
-  const KLAVIYO_LIST_ID = "Xunmkg"; 
-  const KLAVIYO_COMPANY_ID = "S3gSbG";
-
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById("klaviyo-form");
     
@@ -694,53 +691,40 @@
         submitButton.disabled = true;
 
         try {
-          // Step 1: Create/update the profile with custom properties
-          const profileRes = await fetch(`https://a.klaviyo.com/client/profiles/?company_id=${KLAVIYO_COMPANY_ID}`, {
-            method: "POST",
-            headers: { 
-              "Content-Type": "application/json",
-              "revision": "2024-07-15"
+          // Track the form submission event
+          const response = await fetch('https://a.klaviyo.com/client/events/?company_id=S3gSbG', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'revision': '2024-07-15'
             },
             body: JSON.stringify({
               data: {
-                type: "profile",
+                type: 'event',
                 attributes: {
-                  email: email,
                   properties: {
                     name: name,
-                    company: company
-                  }
-                }
-              }
-            })
-          });
-
-          if (!profileRes.ok) {
-            const errorData = await profileRes.json();
-            throw new Error(errorData.errors?.[0]?.detail || "Profile creation failed");
-          }
-
-          const profileData = await profileRes.json();
-          const profileId = profileData.data.id;
-
-          // Step 2: Subscribe the profile to the list
-          const subscriptionRes = await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`, {
-            method: "POST",
-            headers: { 
-              "Content-Type": "application/json",
-              "revision": "2024-07-15"
-            },
-            body: JSON.stringify({
-              data: {
-                type: "subscription",
-                attributes: {
-                  list_id: KLAVIYO_LIST_ID
-                },
-                relationships: {
+                    company: company,
+                    source: 'Website Form'
+                  },
+                  metric: {
+                    data: {
+                      type: 'metric',
+                      attributes: {
+                        name: 'Requested Early Access'
+                      }
+                    }
+                  },
                   profile: {
                     data: {
-                      type: "profile",
-                      id: profileId
+                      type: 'profile',
+                      attributes: {
+                        email: email,
+                        properties: {
+                          name: name,
+                          company: company
+                        }
+                      }
                     }
                   }
                 }
@@ -748,15 +732,16 @@
             })
           });
 
-          if (!subscriptionRes.ok) {
-            const errorData = await subscriptionRes.json();
-            throw new Error(errorData.errors?.[0]?.detail || "Subscription failed");
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error response:', errorData);
+            throw new Error('Submission failed');
           }
 
           alert("Thanks! We'll be in touch soon.");
           form.reset();
         } catch (err) {
-          console.error("Klaviyo error:", err);
+          console.error("Error:", err);
           alert("Sorry — something went wrong. Please try again or email us directly.");
         } finally {
           submitButton.textContent = originalText;
@@ -766,7 +751,6 @@
     }
   });
 </script>
-
     
 <body>
     <header>
@@ -1025,6 +1009,7 @@
 
 </body>
 </html>
+
 
 
 
