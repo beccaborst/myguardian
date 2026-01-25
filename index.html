@@ -709,7 +709,7 @@
                 </p>
                 <div class="hero-buttons">
                     <a href="#contact" class="primary-button">Request early access →</a>
-                    <a href="#contact" class="secondary-button">
+                    <a href="https://calendly.com/rebeca-myguardian/20-minute-meeting" class="secondary-button">
                         <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
@@ -839,35 +839,11 @@
                 <div class="section-title">PRODUCT PREVIEW</div>
                 <h2>See My Guardian in action</h2>
                 <div class="product-preview">
-                    <div class="browser-mockup">
-                        <div class="browser-header">
-                            <div class="browser-dots">
-                                <span class="dot red"></span>
-                                <span class="dot yellow"></span>
-                                <span class="dot green"></span>
-                            </div>
-                        </div>
-
-                        <div class="browser-content">
-                          <img 
-                            src="assets/Mockup_landing_page.png" 
-                            alt="My Guardian product mockup" 
-                            style="width:90%; height:auto; display:block;"
-                          />
-                        </div>
-                        
-                        <-- Mockup placeholder
-                        <div class="browser-content">
-                            <div class="placeholder-icon">
-                                <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                                </svg>
-                            </div>
-                            <h3 class="placeholder-title">Product Screenshot Placeholder</h3>
-                            <p class="placeholder-subtitle">Dashboard / Mobile App Preview</p>
-                        </div>
-                        --!>
-                    </div>
+                  <img 
+                    src="assets/Mockup_landing_page.png"
+                    alt="My Guardian product mockup"
+                    style="width:90%; height:auto; display:block; margin:0 auto;"
+                  />
                 </div>
             </div>
         </section>
@@ -887,7 +863,6 @@
                         </div>
                         <ul class="credentials">
                             <li>Ph.D. in Climate Risk Assessment</li>
-                            <li>Led flood risk assessment for Port of San Francisco</li>
                             <li>11+ years ML experience in climate & weather</li>
                             <li>0→1 product builder in AI & data solutions</li>
                         </ul>
@@ -954,44 +929,8 @@
         </div>
     </footer>
 
-    <-- Older pop up form, hidden because it's annoying for users
-    <script>
-        // Klaviyo form submission handler
-        document.getElementById('klaviyo-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const company = document.getElementById('company').value;
-            const email = document.getElementById('email').value;
-            
-            // Submit to Klaviyo
-            if (window._learnq) {
-                window._learnq.push(['identify', {
-                    '$email': email,
-                    '$first_name': name.split(' ')[0],
-                    '$last_name': name.split(' ').slice(1).join(' '),
-                    'Company': company
-                }]);
-                
-                window._learnq.push(['track', 'Early Access Request', {
-                    'Name': name,
-                    'Company': company,
-                    'Email': email
-                }]);
-                
-                // Show success message
-                alert('Thank you! We\'ll be in touch soon.');
-                
-                // Reset form
-                this.reset();
-            } else {
-                console.error('Klaviyo not loaded');
-                alert('There was an error submitting the form. Please try again.');
-            }
-        });
-    </script>
-    --!>
 </body>
 </html>
+
 
 
