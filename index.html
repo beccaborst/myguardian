@@ -719,33 +719,36 @@
               'Content-Type': 'application/json',
               'revision': '2024-07-15'
             },
-            body: JSON.stringify({
-              data: {
-                type: 'event',
-                attributes: {
-                  properties: {
-                    company: company
-                  },
-                  metric: {
-                    data: {
-                      type: 'metric',
-                      attributes: {
-                        name: 'Requested Early Access'
-                      }
-                    }
-                  },
-                  profile: {
-                    data: {
-                      type: 'profile',
-                      attributes: {
-                        email: email
-                      }
-                    }
+       body: JSON.stringify({
+          data: {
+            type: "event",
+            attributes: {
+              properties: {
+                company: company,
+                name: name,
+                source: "Website Form"
+              },
+              metric: {
+                data: {
+                  type: "metric",
+                  attributes: {
+                    name: "Requested Early Access"
                   }
                 }
               }
-            })
-          });
+            },
+            relationships: {
+              profile: {
+                data: {
+                  type: "profile",
+                  attributes: {
+                    email: email
+                  }
+                }
+              }
+            }
+          }
+        })
 
           if (!eventResponse.ok) {
             throw new Error('Submission failed');
@@ -1022,6 +1025,7 @@
 
 </body>
 </html>
+
 
 
 
