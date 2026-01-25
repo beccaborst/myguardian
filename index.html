@@ -694,7 +694,37 @@
         submitButton.disabled = true;
 
         try {
-          const res = await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`, {
+          // Step 1: Create/update the profile with custom properties
+          const profileRes = await fetch(`https://a.klaviyo.com/client/profiles/?company_id=${KLAVIYO_COMPANY_ID}`, {
+            method: "POST",
+            headers: { 
+              "Content-Type": "application/json",
+              "revision": "2024-07-15"
+            },
+            body: JSON.stringify({
+              data: {
+                type: "profile",
+                attributes: {
+                  email: email,
+                  properties: {
+                    name: name,
+                    company: company
+                  }
+                }
+              }
+            })
+          });
+
+          if (!profileRes.ok) {
+            const errorData = await profileRes.json();
+            throw new Error(errorData.errors?.[0]?.detail || "Profile creation failed");
+          }
+
+          const profileData = await profileRes.json();
+          const profileId = profileData.data.id;
+
+          // Step 2: Subscribe the profile to the list
+          const subscriptionRes = await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`, {
             method: "POST",
             headers: { 
               "Content-Type": "application/json",
@@ -704,20 +734,13 @@
               data: {
                 type: "subscription",
                 attributes: {
-                  list_id: KLAVIYO_LIST_ID,
-                  email: email
+                  list_id: KLAVIYO_LIST_ID
                 },
                 relationships: {
                   profile: {
                     data: {
                       type: "profile",
-                      attributes: {
-                        email: email,
-                        properties: {
-                          name: name,
-                          company: company
-                        }
-                      }
+                      id: profileId
                     }
                   }
                 }
@@ -725,17 +748,16 @@
             })
           });
 
-          const data = await res.json();
-
-          if (!res.ok) {
-            throw new Error(data.errors?.[0]?.detail || "Subscription failed");
+          if (!subscriptionRes.ok) {
+            const errorData = await subscriptionRes.json();
+            throw new Error(errorData.errors?.[0]?.detail || "Subscription failed");
           }
 
           alert("Thanks! We'll be in touch soon.");
           form.reset();
         } catch (err) {
-          alert("Sorry — something went wrong. Please try again or email us directly.");
           console.error("Klaviyo error:", err);
+          alert("Sorry — something went wrong. Please try again or email us directly.");
         } finally {
           submitButton.textContent = originalText;
           submitButton.disabled = false;
@@ -1003,6 +1025,7 @@
 
 </body>
 </html>
+
 
 
 
