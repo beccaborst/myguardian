@@ -674,6 +674,50 @@
         }
     </style>
 </head>
+
+<script>
+  // 1) Put your Klaviyo List ID here
+  const KLAVIYO_LIST_ID = "My Guardian - Pilot Updates";
+  // Your public company_id / site ID (you already have this in the script URL)
+  const KLAVIYO_COMPANY_ID = "S3gSbG";
+
+  document.getElementById("klaviyo-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const company = document.getElementById("company").value.trim();
+    const email = document.getElementById("email").value.trim();
+
+    try {
+      const res = await fetch(`https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: {
+            type: "subscription",
+            attributes: {
+              list_id: KLAVIYO_LIST_ID,
+              email: email,
+              // store extra fields as profile properties
+              properties: { name, company }
+            }
+          }
+        })
+      });
+
+      if (!res.ok) throw new Error("Subscription failed");
+
+      // simple success UX
+      alert("Thanks! We’ll be in touch soon.");
+      e.target.reset();
+    } catch (err) {
+      alert("Sorry — something went wrong. Please try again.");
+      console.error(err);
+    }
+  });
+</script>
+
+    
 <body>
     <header>
         <div class="container">
@@ -931,6 +975,7 @@
 
 </body>
 </html>
+
 
 
 
