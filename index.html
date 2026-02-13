@@ -872,9 +872,9 @@
       submitButton.disabled = true;
 
       try {
-        // Create/update profile and track event in one call
-        console.log('Tracking newsletter subscription event...');
-        const eventResponse = await fetch('https://a.klaviyo.com/client/events/?company_id=S3gSbG', {
+        // Subscribe to newsletter list
+        console.log('Adding to newsletter list...');
+        const subscribeResponse = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=S3gSbG', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -882,26 +882,23 @@
           },
           body: JSON.stringify({
             data: {
-              type: "event",
+              type: 'subscription',
               attributes: {
-                properties: {
-                  source: "Website Newsletter"
-                },
-                metric: {
-                  data: {
-                    type: "metric",
-                    attributes: {
-                      name: "Newsletter Subscription"
-                    }
-                  }
-                },
                 profile: {
                   data: {
-                    type: "profile",
+                    type: 'profile',
                     attributes: {
                       email: email,
                       first_name: name
                     }
+                  }
+                }
+              },
+              relationships: {
+                list: {
+                  data: {
+                    type: 'list',
+                    id: 'RgrXSm'
                   }
                 }
               }
@@ -909,12 +906,12 @@
           })
         });
 
-        const eventData = await eventResponse.json();
-        console.log('Event response:', eventResponse.status, eventData);
+        const subscribeData = await subscribeResponse.json();
+        console.log('Subscription response:', subscribeResponse.status, subscribeData);
 
-        if (!eventResponse.ok) {
-          console.error('Event tracking failed:', eventData);
-          throw new Error('Subscription failed: ' + JSON.stringify(eventData));
+        if (!subscribeResponse.ok) {
+          console.error('Subscription failed:', subscribeData);
+          throw new Error('Subscription failed: ' + JSON.stringify(subscribeData));
         }
 
         console.log('Newsletter subscription successful!');
