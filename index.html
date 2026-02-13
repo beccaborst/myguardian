@@ -906,18 +906,26 @@
           })
         });
 
-        const subscribeData = await subscribeResponse.json();
-        console.log('Subscription response:', subscribeResponse.status, subscribeData);
+        console.log('Subscription response status:', subscribeResponse.status);
 
-        if (!subscribeResponse.ok) {
-          console.error('Subscription failed:', subscribeData);
-          throw new Error('Subscription failed: ' + JSON.stringify(subscribeData));
+        // Check if the request was successful (202 is typical for Klaviyo subscriptions)
+        if (subscribeResponse.ok || subscribeResponse.status === 202) {
+          console.log('Newsletter subscription successful!');
+          alert("🎉 You're subscribed! Check your email for confirmation.");
+          newsletterForm.reset();
+          newsletterModal.classList.remove('active');
+        } else {
+          // Try to parse error response if there is one
+          let errorMessage = 'Subscription failed';
+          try {
+            const errorData = await subscribeResponse.json();
+            console.error('Subscription failed:', errorData);
+            errorMessage = JSON.stringify(errorData);
+          } catch (e) {
+            console.error('Failed with status:', subscribeResponse.status);
+          }
+          throw new Error(errorMessage);
         }
-
-        console.log('Newsletter subscription successful!');
-        alert("🎉 You're subscribed! Check your email for confirmation.");
-        newsletterForm.reset();
-        newsletterModal.classList.remove('active');
       } catch (err) {
         console.error("Detailed error:", err);
         alert("Sorry — something went wrong. Please check the console for details or email us directly at rebeca@myguardian.tech");
@@ -1313,4 +1321,3 @@
 
 </body>
 </html>
-
