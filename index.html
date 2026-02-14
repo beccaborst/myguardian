@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Guardian - Loss Prevention Engine</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lf3AWssAAAAAL5N_DMEfJT43QmBejlXQajh0MBl"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         * {
@@ -958,6 +959,21 @@
             font-size: 0.9rem;
         }
 
+        .recaptcha-notice {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .recaptcha-notice a {
+            color: #94a3b8;
+            text-decoration: underline;
+        }
+
+        .grecaptcha-badge {
+            visibility: hidden !important;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -1010,6 +1026,29 @@
 </head>
 
 <script>
+  // --- Security utilities ---
+  function sanitizeInput(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML.substring(0, 200);
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
+  }
+
+  const formTimestamps = {};
+  function isRateLimited(formId) {
+    const now = Date.now();
+    const cooldown = 10000; // 10 seconds between submissions
+    if (formTimestamps[formId] && (now - formTimestamps[formId]) < cooldown) {
+      alert('Please wait a moment before submitting again.');
+      return true;
+    }
+    formTimestamps[formId] = now;
+    return false;
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     // Newsletter modal functionality
     const newsletterButton = document.getElementById('newsletter-button');
@@ -1035,10 +1074,17 @@
     newsletterForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const name = document.getElementById('newsletter-name').value.trim();
+      const name = sanitizeInput(document.getElementById('newsletter-name').value.trim());
       const email = document.getElementById('newsletter-email').value.trim();
       const submitButton = newsletterForm.querySelector('.newsletter-submit');
       const originalText = submitButton.textContent;
+
+      if (!isValidEmail(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      if (isRateLimited('newsletter')) return;
       
       console.log('Newsletter form submitted:', { name, email });
       
@@ -1046,6 +1092,10 @@
       submitButton.disabled = true;
 
       try {
+        // Get reCAPTCHA token
+        const recaptchaToken = await grecaptcha.execute('6Lf3AWssAAAAAL5N_DMEfJT43QmBejlXQajh0MBl', { action: 'newsletter_subscribe' });
+        console.log('reCAPTCHA token obtained for newsletter');
+
         // Subscribe to newsletter list
         console.log('Adding to newsletter list...');
         const subscribeResponse = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=S3gSbG', {
@@ -1116,16 +1166,27 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const name = document.getElementById("name").value.trim();
-        const company = document.getElementById("company").value.trim();
+        const name = sanitizeInput(document.getElementById("name").value.trim());
+        const company = sanitizeInput(document.getElementById("company").value.trim());
         const email = document.getElementById("email").value.trim();
         
+        if (!isValidEmail(email)) {
+          alert('Please enter a valid email address.');
+          return;
+        }
+
+        if (isRateLimited('earlyaccess')) return;
+
         const submitButton = form.querySelector('.submit-button');
         const originalText = submitButton.textContent;
         submitButton.textContent = 'Submitting...';
         submitButton.disabled = true;
 
         try {
+          // Get reCAPTCHA token
+          const recaptchaToken = await grecaptcha.execute('6Lf3AWssAAAAAL5N_DMEfJT43QmBejlXQajh0MBl', { action: 'request_early_access' });
+          console.log('reCAPTCHA token obtained for early access');
+
           // First, create/update the profile
           await fetch('https://a.klaviyo.com/client/profiles/?company_id=S3gSbG', {
             method: 'POST',
@@ -1265,7 +1326,7 @@
                 </div>
                 <h1>
                     Stop paying millions for <br>
-                    losses you could have <br>
+                    Losses you could have <br>
                     <span class="gradient-text">Prevented</span>
                 </h1>
                 <p class="subtitle">
@@ -1355,17 +1416,17 @@
                 </p>
                 <div class="numbered-grid">
                     <div class="numbered-card">
-                        <div class="number-badge">1</div>
+                        <div class="number-badge">2</div>
                         <h3>They get relevant warnings</h3>
                         <p>Location-based alerts tied to their actual exposures. Heavy rain coming? They know exactly what to protect and when.</p>
                     </div>
                     <div class="numbered-card">
-                        <div class="number-badge">2</div>
+                        <div class="number-badge">3</div>
                         <h3>They take targeted actions</h3>
                         <p>Step-by-step guidance on storm prep, water shutoffs, tree trimming—the actions that actually prevent claims.</p>
                     </div>
                     <div class="numbered-card">
-                        <div class="number-badge">3</div>
+                        <div class="number-badge">4</div>
                         <h3>You capture proof of completion</h3>
                         <p>For the first time, you know who's protecting their assets and who's not - before the loss.</p>
                     </div>
@@ -1556,5 +1617,21 @@
                             </svg>
                             Book a 20-min intro
                         </a>
-                    </
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
+    <footer>
+        <div class="container">
+            <p class="copyright">&copy; 2025 My Guardian. All rights reserved.</p>
+            <p class="recaptcha-notice">
+                This site is protected by reCAPTCHA and the Google
+                <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
+                <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.
+            </p>
+        </div>
+    </footer>
+</body>
+</html></
