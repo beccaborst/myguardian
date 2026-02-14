@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -585,6 +584,14 @@
             color: white;
         }
 
+        .avatar-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
         .team-info h3 {
             font-size: 1.25rem;
             margin-bottom: 0.25rem;
@@ -772,6 +779,134 @@
         .placeholder-subtitle {
             color: #94a3b8;
             font-size: 1rem;
+        }
+
+        /* Credential Banner */
+        .credential-banner {
+            background: #f8fafc;
+            padding: 2.5rem 0;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .credential-track {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .credential-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .credential-item:hover {
+            border-color: #c7d2fe;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.1);
+        }
+
+        .credential-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.04), transparent);
+            animation: credentialShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes credentialShimmer {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(50%); }
+        }
+
+        .credential-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .credential-icon.fi {
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+        }
+
+        .credential-icon.bu {
+            background: linear-gradient(135deg, #e0e7ff, #f3e8ff);
+        }
+
+        .credential-type {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6366f1;
+            line-height: 1;
+        }
+
+        .credential-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.2;
+        }
+
+        .credential-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #6366f1;
+            animation: credentialPulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes credentialPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            50% { opacity: 0.3; box-shadow: 0 0 8px 2px rgba(99, 102, 241, 0.15); }
+        }
+
+        .credential-separator {
+            color: #cbd5e1;
+            font-size: 1.25rem;
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .credential-track {
+                gap: 1rem;
+            }
+
+            .credential-separator {
+                display: none;
+            }
+
+            .credential-item {
+                padding: 0.4rem 1rem;
+            }
+
+            .credential-name {
+                font-size: 0.85rem;
+            }
         }
 
         /* FAQ Section */
@@ -1130,7 +1265,7 @@
                 </div>
                 <h1>
                     Stop paying millions for <br>
-                    Losses you could have <br>
+                    losses you could have <br>
                     <span class="gradient-text">Prevented</span>
                 </h1>
                 <p class="subtitle">
@@ -1220,17 +1355,17 @@
                 </p>
                 <div class="numbered-grid">
                     <div class="numbered-card">
-                        <div class="number-badge">2</div>
+                        <div class="number-badge">1</div>
                         <h3>They get relevant warnings</h3>
                         <p>Location-based alerts tied to their actual exposures. Heavy rain coming? They know exactly what to protect and when.</p>
                     </div>
                     <div class="numbered-card">
-                        <div class="number-badge">3</div>
+                        <div class="number-badge">2</div>
                         <h3>They take targeted actions</h3>
                         <p>Step-by-step guidance on storm prep, water shutoffs, tree trimming—the actions that actually prevent claims.</p>
                     </div>
                     <div class="numbered-card">
-                        <div class="number-badge">4</div>
+                        <div class="number-badge">3</div>
                         <h3>You capture proof of completion</h3>
                         <p>For the first time, you know who's protecting their assets and who's not - before the loss.</p>
                     </div>
@@ -1325,6 +1460,33 @@
         </section>
             -->
 
+        <!-- Credential Banner -->
+        <section class="credential-banner">
+            <div class="container">
+                <div class="credential-track">
+                    <div class="credential-item">
+                        <div class="credential-icon fi">🎓</div>
+                        <div>
+                            <div class="credential-type">Graduate</div>
+                            <div class="credential-name">Founder Institute</div>
+                        </div>
+                        <div class="credential-dot"></div>
+                    </div>
+
+                    <span class="credential-separator">·</span>
+
+                    <div class="credential-item">
+                        <div class="credential-icon bu">⚡</div>
+                        <div>
+                            <div class="credential-type">Accepted</div>
+                            <div class="credential-name">Beta University</div>
+                        </div>
+                        <div class="credential-dot" style="animation-delay: 1s;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="team-section">
             <div class="container">
                 <div class="section-title">WHO WE ARE</div>
@@ -1332,7 +1494,7 @@
                 <div class="team-grid">
                     <div class="team-card">
                         <div class="team-header">
-                            <div class="avatar">RG</div>
+                            <img src="assets/rebeca.jpg" alt="Rebeca Gomez" class="avatar-img">
                             <div class="team-info">
                                 <h3>Rebeca Gomez</h3>
                                 <div class="team-role">Founder & CEO</div>
@@ -1346,7 +1508,7 @@
                     </div>
                     <div class="team-card">
                         <div class="team-header">
-                            <div class="avatar">PL</div>
+                            <img src="assets/phil.jpg" alt="Phil LeGrone" class="avatar-img">
                             <div class="team-info">
                                 <h3>Phil LeGrone</h3>
                                 <div class="team-role">Advisor – Insurance</div>
@@ -1382,11 +1544,11 @@
                         <button type="submit" class="submit-button">Request early access →</button>
                     </form>
                     <div class="contact-info">
-                        <a href="mailto:rebeca@myguardian.tech" class="contact-link">
+                        <a href="/cdn-cgi/l/email-protection#12607770777173527f6b75677360767b737c3c6677717a" class="contact-link">
                             <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
-                            rebeca@myguardian.tech
+                            <span class="__cf_email__" data-cfemail="ed9f888f888e8cad80948a988c9f89848c83c399888e85">[email&#160;protected]</span>
                         </a>
                         <a href="https://calendly.com/rebeca-myguardian/20-minute-meeting" target="_blank" rel="noopener noreferrer" class="contact-link">
                             <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1394,13 +1556,4 @@
                             </svg>
                             Book a 20-min intro
                         </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-     
-
+                    </
