@@ -448,7 +448,8 @@
   .team h2{font-size:46px;}
   .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
   .pcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:34px;display:flex;gap:26px;align-items:flex-start;}
-  .pcard .av{flex-shrink:0;width:104px;height:104px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+  .pcard .av{flex-shrink:0;width:104px;height:104px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .pcard .av img{width:100%;height:100%;object-fit:cover;display:block;}
   .pcard .av span{font-family:var(--serif);font-size:32px;font-weight:500;color:var(--accent-ink);font-style:italic;}
   .pcard .role{color:var(--accent);}
   .pcard h3{font-family:var(--serif);font-size:27px;font-weight:500;letter-spacing:-.5px;margin:6px 0 16px;}
@@ -579,7 +580,7 @@
     </div>
     <div class="team-grid">
       <article class="pcard">
-        <div class="av"><span>RG</span></div>
+        <div class="av"><img src="rebeca.png" alt="Rebeca Gomez" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'RG'}))"></div>
         <div>
           <div class="tracked role" style="font-size:10.5px;">Founder &amp; CEO</div>
           <h3>Rebeca Gomez</h3>
@@ -591,7 +592,7 @@
         </div>
       </article>
       <article class="pcard">
-        <div class="av"><span>PL</span></div>
+        <div class="av"><img src="phil.jpeg" alt="Phil LeGrone" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'PL'}))"></div>
         <div>
           <div class="tracked role" style="font-size:10.5px;">Advisor · Insurance</div>
           <h3>Phil LeGrone</h3>
