@@ -1,1638 +1,777 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Guardian - Loss Prevention Engine</title>
-    <script src="updated-script.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-            line-height: 1.6;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Header */
-        header {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #e2e8f0;
-            background: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        main {
-            padding-top: 80px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .newsletter-button {
-            background: transparent;
-            color: #6366f1;
-            padding: 0.75rem 1.5rem;
-            border: 2px solid #6366f1;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .newsletter-button:hover {
-            background: #6366f1;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .cta-button {
-            background: #0f172a;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .cta-button:hover {
-            background: #1e293b;
-            transform: translateY(-2px);
-        }
-
-        /* Newsletter Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            padding: 3rem;
-            border-radius: 16px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            animation: slideUp 0.3s;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        @keyframes slideUp {
-            from { 
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #64748b;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .modal-close:hover {
-            background: #f1f5f9;
-            color: #1e293b;
-        }
-
-        .modal h3 {
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-        }
-
-        .modal p {
-            color: #64748b;
-            margin-bottom: 2rem;
-        }
-
-        .newsletter-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .newsletter-form input {
-            padding: 1rem 1.5rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .newsletter-form input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-
-        .newsletter-submit {
-            background: #6366f1;
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .newsletter-submit:hover {
-            background: #4f46e5;
-        }
-
-        .newsletter-submit:disabled {
-            background: #cbd5e1;
-            cursor: not-allowed;
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 5rem 0 4rem;
-            background: white;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #f1f5f9;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #6366f1;
-            margin-bottom: 2rem;
-        }
-
-        .badge-icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            color: #64748b;
-            margin-bottom: 2.5rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .primary-button {
-            background: #0f172a;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .primary-button:hover {
-            background: #1e293b;
-            transform: translateY(-2px);
-        }
-
-        .secondary-button {
-            background: #f1f5f9;
-            color: #0f172a;
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .secondary-button:hover {
-            background: #e2e8f0;
-        }
-
-        /* Problem Section */
-        .section {
-            padding: 5rem 0;
-        }
-
-        .problem-section {
-            background: #f8fafc;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #6366f1;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.125rem;
-            color: #64748b;
-            max-width: 800px;
-            margin: 0 auto 3rem;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 2.5rem;
-            transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #ede9fe 0%, #f3e8ff 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            color: #7c3aed;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
-
-        .card p {
-            color: #64748b;
-            line-height: 1.7;
-        }
-
-        /* Why Now Section */
-        .why-now {
-            background: #0f172a;
-            color: white;
-            border-radius: 24px;
-            padding: 3rem;
-            margin: 3rem 0;
-        }
-
-        .why-now h3 {
-            color: #a5b4fc;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        .why-now h2 {
-            color: white;
-            text-align: left;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .features-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .checkmark {
-            width: 24px;
-            height: 24px;
-            background: #7c3aed;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        /* Solution Section */
-        .solution-section {
-            background: white;
-        }
-
-        .numbered-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .numbered-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 2rem;
-        }
-
-        .number-badge {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        .numbered-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        /* Steps Section */
-        .steps-section {
-            background: #f8fafc;
-        }
-
-        .steps-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
-            position: relative;
-        }
-
-        .step {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 2.5rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        .step-number {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-        }
-
-        .step h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Team Section */
-        .team-section {
-            background: #000000;
-            padding: 5rem 0;
-        }
-
-        .team-section .section-title {
-            color: #a5b4fc;
-        }
-
-        .team-section h2 {
-            color: white;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .team-card {
-            background: #1e293b;
-            color: white;
-            border-radius: 16px;
-            padding: 2.5rem;
-            border: 1px solid #334155;
-        }
-
-        .team-header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .avatar {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .avatar-img {
-            width: 64px;
-            height: 64px;
-            border-radius: 12px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .team-info h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .team-role {
-            color: #94a3b8;
-            font-size: 0.95rem;
-        }
-
-        .credentials {
-            list-style: none;
-        }
-
-        .credentials li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            color: #e2e8f0;
-        }
-
-        .credentials li::before {
-            content: "✓";
-            color: #6366f1;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        /* Contact Form */
-        .contact-section {
-            background: #f8fafc;
-            padding: 5rem 0;
-            text-align: center;
-        }
-
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .contact-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: white;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #6366f1;
-        }
-
-        .submit-button {
-            width: 100%;
-            background: #0f172a;
-            color: white;
-            padding: 1.25rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1rem;
-        }
-
-        .submit-button:hover {
-            background: #1e293b;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #64748b;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .contact-link svg {
-            flex-shrink: 0;
-        }
-
-        .contact-link:hover {
-            color: #6366f1;
-        }
-
-        /* Product Preview Section */
-        .product-preview {
-            margin-top: 3rem;
-            display: flex;
-            justify-content: center;
-        }
-
-        .browser-mockup {
-            width: 100%;
-            max-width: 900px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .browser-header {
-            background: #e2e8f0;
-            padding: 1rem;
-            border-bottom: 1px solid #cbd5e1;
-        }
-
-        .browser-dots {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .dot.red {
-            background: #ef4444;
-        }
-
-        .dot.yellow {
-            background: #f59e0b;
-        }
-
-        .dot.green {
-            background: #10b981;
-        }
-
-        .browser-content {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%);
-            padding: 6rem 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            min-height: 400px;
-        }
-
-        .placeholder-icon {
-            width: 80px;
-            height: 80px;
-            background: white;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
-            color: #6366f1;
-        }
-
-        .placeholder-title {
-            font-size: 1.5rem;
-            color: #475569;
-            margin-bottom: 0.5rem;
-        }
-
-        .placeholder-subtitle {
-            color: #94a3b8;
-            font-size: 1rem;
-        }
-
-        /* Credential Banner */
-        .credential-banner {
-            background: #f8fafc;
-            padding: 2.5rem 0;
-            overflow: hidden;
-            position: relative;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .credential-track {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .credential-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.6rem 1.5rem;
-            border-radius: 40px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            cursor: default;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .credential-item:hover {
-            border-color: #c7d2fe;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.1);
-        }
-
-        .credential-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 200%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.04), transparent);
-            animation: credentialShimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes credentialShimmer {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(50%); }
-        }
-
-        .credential-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .credential-icon.fi {
-            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
-        }
-
-        .credential-icon.bu {
-            background: linear-gradient(135deg, #e0e7ff, #f3e8ff);
-        }
-
-        .credential-type {
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #6366f1;
-            line-height: 1;
-        }
-
-        .credential-name {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #1e293b;
-            line-height: 1.2;
-        }
-
-        .credential-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #6366f1;
-            animation: credentialPulse 2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes credentialPulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-            50% { opacity: 0.3; box-shadow: 0 0 8px 2px rgba(99, 102, 241, 0.15); }
-        }
-
-        .credential-separator {
-            color: #cbd5e1;
-            font-size: 1.25rem;
-            user-select: none;
-        }
-
-        @media (max-width: 768px) {
-            .credential-track {
-                gap: 1rem;
-            }
-
-            .credential-separator {
-                display: none;
-            }
-
-            .credential-item {
-                padding: 0.4rem 1rem;
-            }
-
-            .credential-name {
-                font-size: 0.85rem;
-            }
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            background: white;
-        }
-
-        .faq-container {
-            max-width: 800px;
-            margin: 3rem auto 0;
-        }
-
-        .faq-item {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .faq-item:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-color: #cbd5e1;
-        }
-
-        .faq-question {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-
-        .faq-answer {
-            color: #64748b;
-            line-height: 1.7;
-        }
-
-        /* Footer */
-        footer {
-            background: white;
-            padding: 2rem 0;
-            text-align: center;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .copyright {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        .recaptcha-notice {
-            color: #94a3b8;
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .recaptcha-notice a {
-            color: #94a3b8;
-            text-decoration: underline;
-        }
-
-        .grecaptcha-badge {
-            visibility: hidden !important;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            .hero {
-                padding: 3rem 0 2rem;
-            }
-
-            .section {
-                padding: 3rem 0;
-            }
-
-            .cards-grid,
-            .numbered-grid,
-            .steps-container,
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .why-now {
-                padding: 2rem;
-            }
-
-            .browser-content {
-                padding: 3rem 1.5rem;
-                min-height: 300px;
-            }
-
-            .nav-actions {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .newsletter-button,
-            .cta-button {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .modal-content {
-                padding: 2rem;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Guardian · Protect the biggest investment of your life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Klaviyo: preserves the existing backend (company S3gSbG). Forms: homeowner RsYs7k, broker YepEtH -->
+<script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=S3gSbG"></script>
+<style>
+  :root{
+    --bg:#F1F3F7;
+    --surface:#FFFFFF;
+    --surface-alt:#E8EBF0;
+    --ink:#0F1B2E;
+    --ink-soft:#4A5868;
+    --ink-mute:#8595A8;
+    --line:rgba(15,27,46,0.08);
+    --line-strong:rgba(15,27,46,0.16);
+    --accent:#2E5BFF;
+    --accent-soft:#DCE2FF;
+    --accent-ink:#1F45D6;
+    --serif:'Fraunces','Newsreader',Georgia,serif;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:0 40px;}
+  .em{font-style:italic;font-weight:500;color:var(--accent);font-variation-settings:"opsz" 144,"SOFT" 80;}
+  .tracked{font-family:var(--sans);font-size:11px;letter-spacing:1.8px;font-weight:600;text-transform:uppercase;color:var(--ink-mute);line-height:1.5;}
+
+  /* buttons */
+  .pill{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:600;border-radius:999px;border:0;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;white-space:nowrap;}
+  .pill.blue{background:var(--accent);color:#fff;box-shadow:0 8px 22px -10px rgba(46,91,255,.7);}
+  .pill.blue:hover{transform:translateY(-1px);box-shadow:0 12px 28px -10px rgba(46,91,255,.8);}
+  .pill.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-strong);}
+  .pill.ghost:hover{box-shadow:inset 0 0 0 1px var(--ink);}
+  .pill.sm{padding:10px 18px;font-size:13.5px;}
+  .pill.lg{padding:15px 26px;font-size:15px;}
+  .pill .play{width:7px;height:8px;display:inline-block;}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(241,243,247,.86);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line);}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;max-width:1240px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .mark{width:28px;height:28px;border-radius:50%;background:var(--accent);display:inline-flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.22);}
+  .mark span{font-family:var(--serif);font-style:italic;font-size:16px;font-weight:500;color:#fff;line-height:1;margin-top:-1px;letter-spacing:-.5px;}
+  .brand b{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink);letter-spacing:-.3px;}
+  .nav-links{display:flex;align-items:center;gap:30px;}
+  .nav-links a{font-size:14px;color:var(--ink-soft);font-weight:500;}
+  .nav-links a:hover{color:var(--ink);}
+  @media(max-width:860px){.nav-links{display:none;}}
+
+  /* hero */
+  header{background:var(--bg);position:relative;overflow:hidden;}
+  .hero{display:grid;grid-template-columns:1.12fr .88fr;gap:64px;align-items:center;padding:76px 0 96px;}
+  h1{font-family:var(--serif);font-size:74px;font-weight:500;letter-spacing:-2.4px;line-height:1.05;color:var(--ink);margin:0 0 24px;text-wrap:pretty;font-variation-settings:"opsz" 144,"SOFT" 30;}
+  .hero .sub{font-family:var(--serif);font-size:24px;font-weight:400;font-style:italic;color:var(--ink-soft);letter-spacing:-.3px;line-height:1.3;margin:0 0 22px;max-width:520px;font-variation-settings:"opsz" 80;}
+  .hero .body{font-family:var(--sans);font-size:17.5px;line-height:1.55;color:var(--ink-soft);max-width:500px;margin:0;text-wrap:pretty;}
+  .hero .cta{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;}
+  .eyebrow-row{margin-bottom:22px;}
+  .eyebrow-soft{font-family:var(--sans);font-size:14.5px;font-weight:600;color:var(--accent);letter-spacing:.1px;margin-bottom:20px;max-width:480px;line-height:1.45;}
+  .microline{font-size:13px;color:var(--ink-mute);margin-top:16px;font-weight:500;}
+
+  /* trust strip */
+  .trust{margin-top:52px;display:flex;gap:42px;flex-wrap:wrap;}
+  .trust .k{font-family:var(--sans);font-size:10px;letter-spacing:1.8px;font-weight:700;text-transform:uppercase;color:var(--ink-mute);}
+  .trust .v{font-size:13.5px;color:var(--ink);font-weight:500;margin-top:4px;}
+
+  /* phone */
+  .phone-stage{display:flex;justify-content:center;position:relative;}
+  .phone{width:300px;border-radius:42px;background:#0F1B2E;padding:10px;box-shadow:0 40px 80px -30px rgba(15,27,46,.45),0 12px 30px -12px rgba(15,27,46,.3);position:relative;}
+  .phone .notch{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:96px;height:24px;background:#0F1B2E;border-radius:0 0 16px 16px;z-index:3;}
+  .screen{background:var(--bg);border-radius:33px;overflow:hidden;height:600px;position:relative;}
+  .screen .pad{padding:30px 22px 22px;}
+  .loc{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.4px;color:var(--ink-mute);font-weight:600;text-transform:uppercase;}
+  .loc .dot{width:6px;height:6px;border-radius:50%;background:#5BCB7B;}
+  .greet{font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.8px;margin:18px 0 4px;font-variation-settings:"opsz" 144;}
+  .greet .light{color:var(--ink-mute);}
+  .posture{font-size:13.5px;color:var(--ink-soft);margin-bottom:20px;}
+  .band{display:flex;gap:4px;margin-bottom:6px;}
+  .band i{height:7px;border-radius:3px;flex:1;background:var(--surface-alt);}
+  .band i.on{background:var(--accent);}
+  .band-label{display:flex;justify-content:space-between;font-size:10px;color:var(--ink-mute);font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin-bottom:24px;}
+  .band-label .up{color:#3FA45C;}
+  .card-label{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-bottom:10px;}
+  .acard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 24px -18px rgba(15,27,46,.4);}
+  .acard+.acard{margin-top:12px;}
+  .acard .tag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#1C3F66;background:#D6E1EC;padding:5px 10px;border-radius:999px;margin-bottom:12px;}
+  .acard .tag .d{width:6px;height:6px;border-radius:50%;background:#7AB0D5;}
+  .acard h4{font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:-.3px;line-height:1.2;margin-bottom:8px;}
+  .acard p{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:14px;}
+  .acard .foot{display:flex;align-items:center;justify-content:space-between;}
+  .acard .time{font-size:12px;color:var(--ink-mute);font-weight:500;}
+  .acard .check{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;}
+  .acard.done .check{background:var(--accent);border-color:var(--accent);}
+
+  /* generic section */
+  section{position:relative;}
+  .sec-pad{padding:120px 0;}
+  h2{font-family:var(--serif);font-weight:500;letter-spacing:-1.4px;line-height:1.08;color:var(--ink);font-variation-settings:"opsz" 144,"SOFT" 30;}
+
+  /* you-section */
+  .you{background:var(--bg);border-top:1px solid var(--line);}
+  .you h2{font-size:52px;max-width:720px;margin-bottom:18px;}
+  .you .lead{font-size:17px;color:var(--ink-soft);max-width:600px;line-height:1.55;margin-bottom:56px;}
+  .heroes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;}
+  .hcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:30px 28px;position:relative;overflow:hidden;}
+  .hcard .top{position:absolute;top:0;left:0;right:0;height:5px;}
+  .hcard .ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+  .hcard h3{font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:-.4px;margin-bottom:10px;line-height:1.15;}
+  .hcard p{font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  .statline{background:var(--ink);border-radius:24px;padding:44px 48px;display:flex;align-items:center;gap:40px;flex-wrap:wrap;}
+  .statline .big{font-family:var(--serif);font-size:88px;font-weight:400;letter-spacing:-3px;color:#fff;line-height:.9;font-variation-settings:"opsz" 144;}
+  .statline .txt{flex:1;min-width:280px;}
+  .statline .txt p{font-family:var(--serif);font-size:25px;font-weight:400;font-style:italic;color:#fff;line-height:1.3;letter-spacing:-.3px;margin-bottom:10px;font-variation-settings:"opsz" 80;}
+  .statline .txt .src{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.45);}
+
+  /* payoff line, now inside the final CTA */
+  .payoff-line{font-family:var(--serif)!important;font-size:26px!important;font-weight:400;font-style:normal;letter-spacing:-.5px;line-height:1.3;color:var(--ink)!important;max-width:680px!important;margin:0 auto 28px!important;text-wrap:balance;font-variation-settings:"opsz" 120,"SOFT" 40;}
+
+  /* coverage */
+  .cov{background:var(--bg);}
+  .cov-head{display:flex;align-items:baseline;justify-content:space-between;gap:32px;margin-bottom:48px;flex-wrap:wrap;}
+  .cov h2{font-size:48px;max-width:600px;}
+  .cov .note{font-size:15px;color:var(--ink-soft);max-width:360px;line-height:1.55;}
+  .chips{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:38px 30px;display:grid;grid-template-columns:repeat(9,1fr);gap:8px;}
+  @media(max-width:900px){.chips{grid-template-columns:repeat(5,1fr);gap:14px;}}
+  .chip{display:flex;flex-direction:column;align-items:center;gap:12px;padding:12px 4px;border-radius:16px;transition:background .2s ease;}
+  .chip:hover{background:var(--surface-alt);}
+  .chip .ring{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:inset 0 0 0 2px rgba(255,255,255,.4);}
+  .chip .ring .pin{position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;}
+  .chip .name{font-family:var(--serif);font-size:13.5px;color:var(--ink);font-weight:600;letter-spacing:-.1px;white-space:nowrap;}
+  .cov-foot{margin-top:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-mute);}
+  .cov-foot .italic{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink-soft);}
+
+  /* product gallery */
+  .prod{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .prod .head{text-align:center;margin-bottom:24px;}
+  .prod h2{font-size:46px;max-width:760px;margin:0 auto;}
+  .prod .scope{text-align:center;font-size:16.5px;line-height:1.55;color:var(--ink-soft);max-width:600px;margin:0 auto;}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:64px;align-items:end;}
+  .gcol{display:flex;flex-direction:column;align-items:center;}
+  .gallery .gcol:nth-child(2) .gphone{width:270px;border-radius:38px;box-shadow:0 40px 70px -28px rgba(15,27,46,.5),0 10px 26px -12px rgba(15,27,46,.34);}
+  .gphone{width:222px;border-radius:34px;background:#0F1B2E;padding:7px;box-shadow:0 30px 60px -28px rgba(15,27,46,.42),0 8px 22px -12px rgba(15,27,46,.3);position:relative;}
+  .gphone .gnotch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:74px;height:18px;background:#0F1B2E;border-radius:0 0 12px 12px;z-index:3;}
+  .gscreen{background:var(--bg);border-radius:27px;overflow:hidden;aspect-ratio:9/19.2;position:relative;display:flex;flex-direction:column;}
+  /* tasteful placeholder until real screenshots are dropped in */
+  .gscreen .ph{margin:auto;text-align:center;padding:0 20px;}
+  .gscreen .ph .lab{font-family:var(--serif);font-size:18px;font-weight:500;color:var(--ink);font-variation-settings:"opsz" 72;}
+  .gscreen .ph .hint{font-size:11px;letter-spacing:.4px;color:var(--ink-mute);margin-top:6px;text-transform:uppercase;font-weight:600;}
+  .gscreen .ph .ic{width:38px;height:38px;border-radius:11px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+  .gscreen img.gshot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:4;}
+  .hero-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:5;}
+  .gcap{margin-top:24px;text-align:center;max-width:300px;min-height:118px;}
+  .gcap .when{font-family:var(--sans);font-size:11px;letter-spacing:1.8px;font-weight:700;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+  .gcap h4{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:-.4px;margin-bottom:8px;font-variation-settings:"opsz" 72;}
+  .gcap p{font-size:14px;color:var(--ink-soft);line-height:1.55;}
+  @media(max-width:900px){.gallery{grid-template-columns:1fr;gap:48px;}.prod h2{font-size:34px;}.gcap{min-height:0;}.gallery .gcol:nth-child(2) .gphone{width:222px;}}
+
+  /* pline (used by the broker three-block row) */
+  .pline .rule{width:24px;height:1px;background:var(--ink);margin-bottom:16px;}
+  .pline h4{font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:-.4px;margin-bottom:8px;font-variation-settings:"opsz" 72;}
+  .pline p{font-size:14px;color:var(--ink-soft);line-height:1.55;}
+
+  /* placeholder marker for next build step */
+  .next{background:var(--bg);text-align:center;padding:70px 0;border-top:1px dashed var(--line-strong);}
+  .next span{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink-mute);}
+
+  /* load animation */
+  @media(prefers-reduced-motion:no-preference){
+    .fade{opacity:0;transform:translateY(14px);animation:rise .8s cubic-bezier(.2,.7,.3,1) forwards;}
+    .d1{animation-delay:.05s;}.d2{animation-delay:.15s;}.d3{animation-delay:.25s;}.d4{animation-delay:.35s;}.d5{animation-delay:.45s;}
+    @keyframes rise{to{opacity:1;transform:none;}}
+  }
+
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;gap:48px;}
+    h1{font-size:52px;letter-spacing:-1.6px;}
+    .heroes,.prod-lines{grid-template-columns:1fr;}
+    .wrap{padding:0 24px;}
+    .nav-row{padding:14px 24px;}
+    .statline .big{font-size:64px;}
+  }
+</style>
 </head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-row">
+    <div class="brand">
+      <span class="mark"><span>G</span></span>
+      <b>My Guardian</b>
+    </div>
+    <div class="nav-links">
+      <a href="#you">Is this you?</a>
+      <a href="#coverage">What it covers</a>
+      <a href="#product">The app</a>
+      <a href="#brokers">For brokers</a>
+    </div>
+    <button class="pill blue sm" onclick="openHomeownerForm(event)">I want this for my home</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="eyebrow-soft fade d1">For everyone who got the keys of their new home, but not a manual.</div>
+        <h1 class="fade d1">Protect the biggest investment of your&nbsp;<span class="em">life</span>.</h1>
+        <p class="sub fade d2">There are a few things that would protect your home before the next storm. Do you know what they are?</p>
+        <p class="body fade d3">My Guardian hands you the short list of what actually matters, for your home, in plain language, before weather hits, and helps you recover faster and more confidently.</p>
+        <div class="cta fade d4">
+          <button class="pill blue lg" onclick="openHomeownerForm(event)">
+            <svg class="play" viewBox="0 0 7 8" fill="none"><path d="M0 0l7 4-7 4z" fill="currentColor"/></svg>
+            I want this for my home
+          </button>
+          <button class="pill ghost lg" onclick="document.getElementById('product').scrollIntoView({behavior:'smooth'})">How it works</button>
+        </div>
+        <div class="microline fade d4">Offered through your insurer or broker.</div>
+        <div class="trust fade d5">
+          <div><div class="k">Coverage</div><div class="v">Every U.S. peril</div></div>
+          <div><div class="k">Language</div><div class="v">Plain, calm, yours</div></div>
+          <div><div class="k">Privacy</div><div class="v">Opt-in only</div></div>
+          <div><div class="k">Patent</div><div class="v">Pending</div></div>
+        </div>
+      </div>
+      <div class="phone-stage fade d3">
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen">
+            <img class="hero-shot" src="hero.png" alt="My Guardian home screen" onerror="this.remove()">
+            <div class="pad">
+              <div class="loc"><span class="dot"></span>Your home · Calm today</div>
+              <div class="greet">Good morning.<br><span class="light">Nothing urgent.</span></div>
+              <div class="posture">You're <strong>Steady</strong>. Three small moves would harden the house before spring storms.</div>
+              <div class="band">
+                <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+              </div>
+              <div class="band-label"><span>Steady</span><span class="up">+3 this month</span></div>
+              <div class="card-label">Today's move</div>
+              <div class="acard">
+                <span class="tag"><span class="d"></span>Rain · 2 days out</span>
+                <h4>Clear the gutters and downspouts.</h4>
+                <p>A blocked downspout sends water into the foundation. Twenty minutes now saves a basement later.</p>
+                <div class="foot">
+                  <span class="time">About 20 min</span>
+                  <span class="check">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7.2 5.8 10 11 4.2" stroke="#2E5BFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </div>
+              </div>
+              <div class="acard done">
+                <span class="tag"><span class="d"></span>Done today</span>
+                <h4>Photographed the roofline.</h4>
+                <div class="foot">
+                  <span class="time">Verified · photo</span>
+                  <span class="check">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7.2 5.8 10 11 4.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- YOU SECTION -->
+<section id="you" class="you sec-pad">
+  <div class="wrap">
+    <div class="tracked" style="margin-bottom:14px;">Is this you?</div>
+    <h2>If any of these is you, you're not <span class="em">behind</span>.</h2>
+    <p class="lead">Nobody hands you a manual when you get the keys. Here's who we built this for.</p>
+    <div class="heroes">
+      <article class="hcard">
+        <div class="top" style="background:#7AB0D5;"></div>
+        <div class="ic" style="background:#D6E1EC;color:#1A3C5E;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-7 9 7M5 9.5V20h14V9.5M9.5 20v-6h5v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>The new owner</h3>
+        <p>You just bought your first place and the inspection report is already a blur. You're not sure what actually needs doing, or when.</p>
+      </article>
+      <article class="hcard">
+        <div class="top" style="background:#E8A36A;"></div>
+        <div class="ic" style="background:#F5DDC4;color:#7A4D1A;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M2 12h20M12 2c3 3.5 3 16.5 0 20M12 2c-3 3.5-3 16.5 0 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/></svg>
+        </div>
+        <h3>The traveler</h3>
+        <p>You're away for work more than you're home, and the storm always seems to arrive while you're gone. Out of sight, out of reach.</p>
+      </article>
+      <article class="hcard">
+        <div class="top" style="background:#7B6AC2;"></div>
+        <div class="ic" style="background:#E5DEEF;color:#3D2F66;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21V8l5-4 5 4M13 21V11l4-3 4 3v10M3 21h18M6.5 13v3M17.5 14v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>The landlord</h3>
+        <p>You own a few properties, in a few climates, and you can't be everywhere at once. Each one needs attention at a different time.</p>
+      </article>
+    </div>
+    <div class="statline">
+      <div class="big">83%</div>
+      <div class="txt">
+        <p>of homeowners feel unprepared for a disaster. The fix was never more worry. It was knowing the three things to do this week.</p>
+        <div class="src">Source · Esurance / Allstate study</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYOFF BAND removed; line moved into the final CTA section -->
+
+<!-- COVERAGE -->
+<section id="coverage" class="cov sec-pad" style="padding-top:0;">
+  <div class="wrap">
+    <div class="cov-head">
+      <div>
+        <div class="tracked" style="margin-bottom:14px;">What it covers</div>
+        <h2>Every peril <span class="em">present</span> where you live.</h2>
+      </div>
+      <p class="note">Tornado in Tulsa. Atmospheric river in Sonoma. A hard freeze where it's never frozen before. One quiet system that knows what your home is about to face, and what to do in the days before it lands.</p>
+    </div>
+    <div class="chips">
+      <!-- chips injected below -->
+    </div>
+    <div class="cov-foot">
+      <div>Sources · NWS · NOAA · USGS · CAL FIRE · IBHS · NHC</div>
+      <div class="italic">…and the ones that haven't been named yet.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT GALLERY -->
+<section id="product" class="prod sec-pad">
+  <div class="wrap">
+    <div class="head">
+      <div class="tracked" style="margin-bottom:14px;">What it does</div>
+      <h2>For active events, and the quiet months <span class="em">in between</span>.</h2>
+    </div>
+    <p class="scope">Most apps only reach you when weather is already here. My Guardian is with you before it arrives, while it's happening, after it passes, and all year as the seasons turn.</p>
+    <div class="gallery">
+      <div class="gcol">
+        <div class="gphone">
+          <div class="gnotch"></div>
+          <div class="gscreen">
+            <img class="gshot" src="seasons.png" alt="Seasonal screen" onerror="this.remove()">
+            <div class="ph">
+              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 13c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0M12 3v6" stroke="#2E5BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="lab">Seasonal</div>
+              <div class="hint">Screenshot here</div>
+            </div>
+          </div>
+        </div>
+        <div class="gcap">
+          <div class="when">All year</div>
+          <h4>Stay ahead of the seasons.</h4>
+          <p>A standing plan for the hazards your home actually faces, paced across the calendar.</p>
+        </div>
+      </div>
+      <div class="gcol">
+        <div class="gphone">
+          <div class="gnotch"></div>
+          <div class="gscreen">
+            <img class="gshot" src="calm.png" alt="Calm home screen" onerror="this.remove()">
+            <div class="ph">
+              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 11l7-6 7 6M6.5 9.5V19h11V9.5" stroke="#2E5BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="lab">Home, calm</div>
+              <div class="hint">Screenshot here</div>
+            </div>
+          </div>
+        </div>
+        <div class="gcap">
+          <div class="when">Calm days</div>
+          <h4>Know where you stand.</h4>
+          <p>Your home's risk picture at a glance, and the next small move worth making.</p>
+        </div>
+      </div>
+      <div class="gcol">
+        <div class="gphone">
+          <div class="gnotch"></div>
+          <div class="gscreen">
+            <img class="gshot" src="event_warning.png" alt="Active event screen" onerror="this.remove()">
+            <div class="ph">
+              <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 8h11a3 3 0 10-3-3M3 12h15a3 3 0 11-3 3M3 16h9a2.5 2.5 0 11-2.5 2.5" stroke="#2E5BFF" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+              <div class="lab">Active event</div>
+              <div class="hint">Screenshot here</div>
+            </div>
+          </div>
+        </div>
+        <div class="gcap">
+          <div class="when">When weather hits</div>
+          <h4>What to do, now.</h4>
+          <p>The watch goes live and the app narrows to the one thing that matters, in plain words.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* seam */
+  .seam{background:var(--bg);}
+  .seam .inner{max-width:840px;margin:0 auto;text-align:center;padding:96px 0;border-top:1px solid var(--line);}
+  .seam .ey{color:var(--accent);margin-bottom:18px;}
+  .seam p{font-family:var(--serif);font-size:30px;font-weight:400;letter-spacing:-.6px;line-height:1.3;color:var(--ink);text-wrap:balance;font-variation-settings:"opsz" 144,"SOFT" 40;}
+  .seam p .soft{color:var(--ink-mute);}
+
+  /* broker */
+  .broker{background:var(--bg);padding:8px 0 120px;}
+  .broker .head{max-width:760px;margin-bottom:52px;}
+  .broker h2{font-size:50px;margin-bottom:20px;}
+  .broker .intro{font-size:17px;color:var(--ink-soft);max-width:600px;line-height:1.55;}
+  .broker-lines{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-bottom:60px;}
+  .broker-cta{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:42px 46px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;box-shadow:0 18px 40px -28px rgba(15,27,46,.4);}
+  .broker-cta h3{font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.6px;margin-bottom:8px;}
+  .broker-cta p{font-size:15px;color:var(--ink-soft);max-width:430px;line-height:1.5;}
+  .broker-cta .micro{font-size:12.5px;color:var(--ink-mute);margin-top:10px;}
+
+  /* stats */
+  .stats{background:var(--ink);color:#fff;}
+  .stats .head{display:flex;align-items:baseline;justify-content:space-between;gap:32px;margin-bottom:54px;flex-wrap:wrap;}
+  .stats h2{font-size:48px;color:#fff;max-width:660px;}
+  .stats .note{font-size:14px;color:rgba(255,255,255,.6);max-width:300px;line-height:1.5;}
+  .stats .tracked{color:rgba(255,255,255,.55);margin-bottom:14px;}
+  .statgrid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);}
+  .statgrid .cell{padding:38px 26px 34px;border-right:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;gap:16px;}
+  .statgrid .cell:last-child{border-right:0;}
+  .statgrid .n{font-family:var(--serif);font-size:54px;font-weight:400;letter-spacing:-2px;line-height:1;color:#fff;font-variation-settings:"opsz" 144;}
+  .statgrid .l{font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.8);}
+  .statgrid .s{margin-top:auto;font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.46);}
+  .stats .closer{margin-top:40px;font-family:var(--serif);font-style:italic;font-size:22px;color:#fff;letter-spacing:-.3px;font-variation-settings:"opsz" 80;max-width:760px;}
+  @media(max-width:900px){.statgrid{grid-template-columns:repeat(2,1fr);}.statgrid .cell:nth-child(2){border-right:0;}.statgrid .cell{border-bottom:1px solid rgba(255,255,255,.14);}}
+
+  /* team */
+  .team{background:var(--bg);}
+  .team .head{max-width:780px;margin-bottom:52px;}
+  .team h2{font-size:46px;}
+  .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .pcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:34px;display:flex;gap:26px;align-items:flex-start;}
+  .pcard .av{flex-shrink:0;width:104px;height:104px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .pcard .av img{width:100%;height:100%;object-fit:cover;display:block;}
+  .pcard .av span{font-family:var(--serif);font-size:32px;font-weight:500;color:var(--accent-ink);font-style:italic;}
+  .pcard .role{color:var(--accent);}
+  .pcard h3{font-family:var(--serif);font-size:27px;font-weight:500;letter-spacing:-.5px;margin:6px 0 16px;}
+  .pcard ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .pcard li{font-size:13.5px;color:var(--ink-soft);line-height:1.5;padding-left:16px;position:relative;}
+  .pcard li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:1px;background:var(--ink);}
+  @media(max-width:900px){.team-grid{grid-template-columns:1fr;}.pcard{flex-direction:column;}}
+
+  /* final */
+  .final{background:var(--bg);text-align:center;}
+  .final .inner{max-width:840px;margin:0 auto;padding:140px 0 120px;}
+  .final h2{font-size:60px;letter-spacing:-2px;margin:0 0 22px;}
+  .final p{font-size:17px;color:var(--ink-soft);max-width:580px;margin:0 auto 36px;line-height:1.55;}
+  .final .cta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+  .final .micro{margin-top:26px;font-size:13px;color:var(--ink-mute);}
+
+  /* footer */
+  footer{background:var(--ink);color:rgba(255,255,255,.62);padding:72px 0 36px;}
+  .foot-row{display:flex;justify-content:space-between;gap:48px;flex-wrap:wrap;}
+  .foot-brand{max-width:340px;}
+  .foot-brand .brand b{color:#fff;}
+  .foot-brand p{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.6);margin-top:16px;}
+  .foot-cols{display:flex;gap:56px;flex-wrap:wrap;}
+  .foot-cols .col h5{font-size:11px;letter-spacing:1.6px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:14px;}
+  .foot-cols .col a{display:block;font-size:13.5px;color:#EAF0FB;margin-bottom:9px;}
+  .foot-bot{margin-top:60px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.42);}
+  @media(max-width:900px){.broker h2,.team h2,.stats h2{font-size:38px;}.final h2{font-size:42px;}}
+
+  /* faq */
+  .faq{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .faq-head{margin-bottom:48px;max-width:680px;}
+  .faq h2{font-size:46px;}
+  .faq-cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .faq-col-label{font-family:var(--sans);font-size:11px;letter-spacing:1.8px;font-weight:700;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+  .faq details{border-top:1px solid var(--line);padding:18px 0;}
+  .faq summary{font-family:var(--serif);font-size:18px;font-weight:500;letter-spacing:-.3px;color:var(--ink);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-variation-settings:"opsz" 72;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";font-family:var(--sans);font-size:20px;color:var(--ink-mute);font-weight:400;line-height:1;}
+  .faq details[open] summary{color:var(--accent);}
+  .faq details[open] summary::after{content:"\2013";color:var(--accent);}
+  .faq details p{font-family:var(--sans);font-size:14.5px;line-height:1.6;color:var(--ink-soft);margin-top:12px;max-width:460px;}
+  @media(max-width:900px){.faq-cols{grid-template-columns:1fr;gap:32px;}.faq h2{font-size:34px;}}
+</style>
+
+<!-- SEAM removed as overkill; broker turn now announced by the section label below -->
+
+<!-- BROKER -->
+<section id="brokers" class="broker">
+  <div class="wrap">
+    <div class="head">
+      <div class="tracked" style="margin-bottom:14px;">For brokers and agencies</div>
+      <h2>You see them once a year. Now you're with them <span class="em">all year</span>.</h2>
+      <p class="intro">A renewal notice is the only time most clients hear from their broker. My Guardian puts your brand in their hands every season, doing the one thing they actually want. Telling them how to protect the home before the weather hits.</p>
+    </div>
+    <div class="broker-lines">
+      <div class="pline">
+        <div class="rule"></div>
+        <h4>To most clients, one broker looks like the next.</h4>
+        <p>That's why they shop on price. Nothing tells you apart. Give them something genuinely useful between renewals and you stop being a quote to compare.</p>
+      </div>
+      <div class="pline">
+        <div class="rule"></div>
+        <h4>Every other broker sends a reminder. You send a guardian.</h4>
+        <p>You're the one who helped them get the house ready before the weather turned.</p>
+      </div>
+      <div class="pline">
+        <div class="rule"></div>
+        <h4>Hardest to replace where it counts.</h4>
+        <p>The multi-property owners, the higher-value homes, the clients who travel and worry about the place they left empty. The ones a competitor most wants to poach become the ones least likely to leave.</p>
+      </div>
+    </div>
+    <div class="broker-cta">
+      <div>
+        <h3>See it with your name on it.</h3>
+        <p>Twenty minutes. We'll show you the app in your brand, and where in your book it earns its keep first.</p>
+        <div class="micro">No deck unless you ask.</div>
+      </div>
+      <button class="pill blue lg" onclick="openBrokerForm(event)">
+        <svg class="play" viewBox="0 0 7 8" fill="none"><path d="M0 0l7 4-7 4z" fill="currentColor"/></svg>
+        Book a 20-min intro
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats sec-pad">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="tracked">The case, in numbers</div>
+        <h2>The clients are the same. Keeping them is the <span class="em" style="color:#8FA6FF;">variable</span>.</h2>
+      </div>
+      <p class="note">We cite our sources. Anything we cannot cite, we soften, and tell you so.</p>
+    </div>
+    <div class="statgrid">
+      <div class="cell">
+        <div class="n">9&times;</div>
+        <div class="l">What it costs to win a new client, versus keep one. The gap in insurance is wider than other industries.</div>
+        <div class="s">Source · One Inc</div>
+      </div>
+      <div class="cell">
+        <div class="n">25-95%</div>
+        <div class="l">More profit from lifting client retention just five points.</div>
+        <div class="s">Source · Harvard Business Review</div>
+      </div>
+      <div class="cell">
+        <div class="n">84&rarr;95%</div>
+        <div class="l">Where an average agency holds, versus where the top agencies hold. The gap is the opening.</div>
+        <div class="s">Source · Industry data</div>
+      </div>
+      <div class="cell">
+        <div class="n">No. 1</div>
+        <div class="l">Insurance carries the highest customer acquisition cost of any industry. Losing a client hurts here more than almost anywhere.</div>
+        <div class="s">Source · Industry data</div>
+      </div>
+    </div>
+    <p class="closer">A sustained five-point lift in retention doubles an agency's profit over five years. That is the whole pitch, and it is a retention instrument.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team sec-pad">
+  <div class="wrap">
+    <div class="head">
+      <div class="tracked" style="margin-bottom:14px;">Who built it</div>
+      <h2>A climate resilience expert and a <span class="em">30-year</span> underwriter walked into a problem the industry could no longer outrun.</h2>
+    </div>
+    <div class="team-grid">
+      <article class="pcard">
+        <div class="av"><img src="rebeca.png" alt="Rebeca Gomez" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'RG'}))"></div>
+        <div>
+          <div class="tracked role" style="font-size:10.5px;">Founder &amp; CEO</div>
+          <h3>Rebeca Gomez</h3>
+          <ul>
+            <li>Ph.D., background in climate resilience</li>
+            <li>11+ years in ML for climate and weather</li>
+            <li>Zero to one product builder in AI and data</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pcard">
+        <div class="av"><img src="phil.jpeg" alt="Phil LeGrone" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'PL'}))"></div>
+        <div>
+          <div class="tracked role" style="font-size:10.5px;">Advisor · Insurance</div>
+          <h3>Phil LeGrone</h3>
+          <ul>
+            <li>30+ years in P&amp;C, underwriting to executive</li>
+            <li>Relationships across carriers, brokers and MGAs</li>
+            <li>Pricing and partnership strategy</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="faq sec-pad">
+  <div class="wrap">
+    <div class="faq-head">
+      <div class="tracked" style="margin-bottom:14px;">Questions</div>
+      <h2>The things people ask <span class="em">before</span> they say yes.</h2>
+    </div>
+    <div class="faq-cols">
+      <div class="faq-col">
+        <div class="faq-col-label">If you own a home</div>
+        <details open>
+          <summary>How do I actually get it?</summary>
+          <p>Through your insurer or broker. Add your home to the list and we'll tell you the moment it reaches your area, and how to ask your provider for it.</p>
+        </details>
+        <details>
+          <summary>Does it cost me anything?</summary>
+          <p>No. Your insurer or broker provides it.</p>
+        </details>
+        <details>
+          <summary>Will it bombard me with scary alerts?</summary>
+          <p>No. Most days it stays quiet. When weather is coming you get a short list of what to do, and it gets calmer under pressure, not louder.</p>
+        </details>
+        <details>
+          <summary>What happens to my data?</summary>
+          <p>You opt in, and you choose what to share. We use it to tell you what your home needs and to let you know when My Guardian reaches you.</p>
+        </details>
+      </div>
+      <div class="faq-col">
+        <div class="faq-col-label">If you're a broker</div>
+        <details open>
+          <summary>Is it really my brand?</summary>
+          <p>Yes. The app is co-branded to your agency, so your client sees you all year, not just at renewal.</p>
+        </details>
+        <details>
+          <summary>Is this built for carriers or brokers?</summary>
+          <p>Both. The broker version is co-branded to your agency and built to keep clients between renewals.</p>
+        </details>
+        <details>
+          <summary>What happens with what my clients do in the app?</summary>
+          <p>It produces an opt-in signal of which protective actions a household actually completes. We'll show you exactly what you see, and what stays private, on the call.</p>
+        </details>
+        <details>
+          <summary>How does pricing work?</summary>
+          <p>We size it to your book and walk through it on the intro call.</p>
+        </details>
+        <details>
+          <summary>How do we get started?</summary>
+          <p>A short pilot. Twenty minutes to see it in your brand, then a small group of clients to begin.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA (dual door) -->
+<section class="final">
+  <div class="wrap">
+    <div class="inner">
+      <div class="tracked" style="margin-bottom:18px;">The conversation</div>
+      <h2>Protect it <span class="em">before</span> you need to.</h2>
+      <p class="payoff-line">You shouldn't need to become an expert in roofs, floods and wildfire to keep your family safe. You just need someone <span class="em">watching</span>.</p>
+      <p>Homeowners, add your name and we'll tell you when it reaches your area, and how to ask your insurer for it. Brokers, take twenty minutes to see it in your brand.</p>
+      <div class="cta">
+        <button class="pill blue lg" onclick="openHomeownerForm(event)">Add my home to the list</button>
+        <button class="pill ghost lg" onclick="openBrokerForm(event)">Book a 20-min intro</button>
+      </div>
+      <div class="micro">No deck unless you ask. No follow-up unless you say yes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="foot-brand">
+        <div class="brand">
+          <span class="mark"><span>G</span></span>
+          <b>My Guardian</b>
+        </div>
+        <p>Prevention you can feel. Made for everyone responsible for a home, and the brokers who stand behind them.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="col">
+          <h5>For homeowners</h5>
+          <a href="#you">Is this you</a>
+          <a href="#product">How it works</a>
+          <a href="#">Join the list</a>
+        </div>
+        <div class="col">
+          <h5>For brokers</h5>
+          <a href="#brokers">The case</a>
+          <a href="#">Book a call</a>
+          <a href="#">Co-brand</a>
+        </div>
+        <div class="col">
+          <h5>Company</h5>
+          <a href="#">Team</a>
+          <a href="#">Patent</a>
+          <a href="#">Press</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>&copy; 2026 My Guardian &middot; All rights reserved &middot; Patent pending</div>
+      <div>Made for everyone responsible for a roof.</div>
+    </div>
+  </div>
+</footer>
 
 <script>
-  // --- Security utilities ---
-  function sanitizeInput(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML.substring(0, 200);
+  // Klaviyo form triggers (popups, opened by buttons). Mirrors the existing openForm pattern.
+  function openHomeownerForm(event){
+    if(event) event.preventDefault();
+    window._klOnsite = window._klOnsite || [];
+    window._klOnsite.push(['openForm','RsYs7k']);
+    setTimeout(function(){
+      window._klOnsite = window._klOnsite || [];
+      window._klOnsite.push(['openForm','RsYs7k']);
+    },300);
+  }
+  function openBrokerForm(event){
+    if(event) event.preventDefault();
+    window._klOnsite = window._klOnsite || [];
+    window._klOnsite.push(['openForm','YepEtH']);
+    setTimeout(function(){
+      window._klOnsite = window._klOnsite || [];
+      window._klOnsite.push(['openForm','YepEtH']);
+    },300);
   }
 
-  function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
-  }
-
-  const formTimestamps = {};
-  function isRateLimited(formId) {
-    const now = Date.now();
-    const cooldown = 10000; // 10 seconds between submissions
-    if (formTimestamps[formId] && (now - formTimestamps[formId]) < cooldown) {
-      alert('Please wait a moment before submitting again.');
-      return true;
-    }
-    formTimestamps[formId] = now;
-    return false;
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    // Newsletter modal functionality
-    const newsletterButton = document.getElementById('newsletter-button');
-    const newsletterModal = document.getElementById('newsletter-modal');
-    const modalClose = document.getElementById('modal-close');
-    const newsletterForm = document.getElementById('newsletter-form');
-
-    newsletterButton.addEventListener('click', function() {
-      newsletterModal.classList.add('active');
-    });
-
-    modalClose.addEventListener('click', function() {
-      newsletterModal.classList.remove('active');
-    });
-
-    newsletterModal.addEventListener('click', function(e) {
-      if (e.target === newsletterModal) {
-        newsletterModal.classList.remove('active');
-      }
-    });
-
-    // Newsletter form submission
-    newsletterForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const name = sanitizeInput(document.getElementById('newsletter-name').value.trim());
-      const email = document.getElementById('newsletter-email').value.trim();
-      const submitButton = newsletterForm.querySelector('.newsletter-submit');
-      const originalText = submitButton.textContent;
-
-      if (!isValidEmail(email)) {
-        alert('Please enter a valid email address.');
-        return;
-      }
-
-      if (isRateLimited('newsletter')) return;
-      
-      console.log('Newsletter form submitted:', { name, email });
-      
-      submitButton.textContent = 'Subscribing...';
-      submitButton.disabled = true;
-
-      try {
-        // Get reCAPTCHA token
-        const recaptchaToken = await grecaptcha.execute('6Lf3AWssAAAAAL5N_DMEfJT43QmBejlXQajh0MBl', { action: 'newsletter_subscribe' });
-        console.log('reCAPTCHA token obtained for newsletter');
-
-        // Subscribe to newsletter list
-        console.log('Adding to newsletter list...');
-        const subscribeResponse = await fetch('https://a.klaviyo.com/client/subscriptions/?company_id=S3gSbG', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'revision': '2024-07-15'
-          },
-          body: JSON.stringify({
-            data: {
-              type: 'subscription',
-              attributes: {
-                profile: {
-                  data: {
-                    type: 'profile',
-                    attributes: {
-                      email: email,
-                      first_name: name
-                    }
-                  }
-                }
-              },
-              relationships: {
-                list: {
-                  data: {
-                    type: 'list',
-                    id: 'YiTZn2'
-                  }
-                }
-              }
-            }
-          })
-        });
-
-        console.log('Subscription response status:', subscribeResponse.status);
-
-        // Check if the request was successful (202 is typical for Klaviyo subscriptions)
-        if (subscribeResponse.ok || subscribeResponse.status === 202) {
-          console.log('Newsletter subscription successful!');
-          alert("🎉 You're subscribed! Check your email for confirmation.");
-          newsletterForm.reset();
-          newsletterModal.classList.remove('active');
-        } else {
-          // Try to parse error response if there is one
-          let errorMessage = 'Subscription failed';
-          try {
-            const errorData = await subscribeResponse.json();
-            console.error('Subscription failed:', errorData);
-            errorMessage = JSON.stringify(errorData);
-          } catch (e) {
-            console.error('Failed with status:', subscribeResponse.status);
-          }
-          throw new Error(errorMessage);
-        }
-      } catch (err) {
-        console.error("Detailed error:", err);
-        alert("Sorry — something went wrong. Please check the console for details or email us directly at rebeca@myguardian.tech");
-      } finally {
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-      }
-    });
-
-    // Early access form functionality
-    const form = document.getElementById("klaviyo-form");
-    
-    if (form) {
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const name = sanitizeInput(document.getElementById("name").value.trim());
-        const company = sanitizeInput(document.getElementById("company").value.trim());
-        const email = document.getElementById("email").value.trim();
-        
-        if (!isValidEmail(email)) {
-          alert('Please enter a valid email address.');
-          return;
-        }
-
-        if (isRateLimited('earlyaccess')) return;
-
-        const submitButton = form.querySelector('.submit-button');
-        const originalText = submitButton.textContent;
-        submitButton.textContent = 'Submitting...';
-        submitButton.disabled = true;
-
-        try {
-          // Get reCAPTCHA token
-          const recaptchaToken = await grecaptcha.execute('6Lf3AWssAAAAAL5N_DMEfJT43QmBejlXQajh0MBl', { action: 'request_early_access' });
-          console.log('reCAPTCHA token obtained for early access');
-
-          // First, create/update the profile
-          await fetch('https://a.klaviyo.com/client/profiles/?company_id=S3gSbG', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'revision': '2024-07-15'
-            },
-            body: JSON.stringify({
-              data: {
-                type: 'profile',
-                attributes: {
-                  email: email,
-                  first_name: name,
-                  properties: {
-                    company: company
-                  }
-                }
-              }
-            })
-          });
-
-          // Then track the event
-          const eventResponse = await fetch('https://a.klaviyo.com/client/events/?company_id=S3gSbG', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'revision': '2024-07-15'
-            },
-            body: JSON.stringify({
-              data: {
-                type: "event",
-                attributes: {
-                  properties: {
-                    company: company,
-                    name: name,
-                    source: "Website Form"
-                  },
-                  metric: {
-                    data: {
-                      type: "metric",
-                      attributes: {
-                        name: "Requested Early Access"
-                      }
-                    }
-                  }
-                },
-                relationships: {
-                  profile: {
-                    data: {
-                      type: "profile",
-                      attributes: {
-                        email: email
-                      }
-                    }
-                  }
-                }
-              }
-            })
-          });
-
-          if (!eventResponse.ok) {
-            throw new Error('Submission failed');
-          }
-
-          alert("Thanks! We'll be in touch soon.");
-          form.reset();
-        } catch (err) {
-          console.error("Error:", err);
-          alert("Sorry — something went wrong. Please try again or email us directly.");
-        } finally {
-          submitButton.textContent = originalText;
-          submitButton.disabled = false;
-        }
-      });
-    }
+  // Coverage chips, tints sampled from the live app
+  const PERILS = [
+    {name:'Wildfire',  tint:'#F2D8BD', ink:'#6A3514', dot:'#C0552E'},
+    {name:'Storm surge',tint:'#CFDDEB',ink:'#1C3F66', dot:'#5C9CD8'},
+    {name:'Flood',     tint:'#D6E1EC', ink:'#1A3C5E', dot:'#7AB0D5'},
+    {name:'Heat',      tint:'#F5DDC4', ink:'#7A4D1A', dot:'#E8A36A'},
+    {name:'Wind',      tint:'#D8DEE6', ink:'#2E3A48', dot:'#7E94B2'},
+    {name:'Freeze',    tint:'#D8E0F0', ink:'#1C2F66', dot:'#5C82D8'},
+    {name:'Lightning', tint:'#F2EBD9', ink:'#5D4E1F', dot:'#B89436'},
+    {name:'Earthquake',tint:'#E5DEEF', ink:'#3D2F66', dot:'#7B6AC2'},
+    {name:'Landslide', tint:'#DCD3C5', ink:'#4A3D2A', dot:'#9C8E78'},
+  ];
+  const ICONS = {
+    Wildfire:'<path d="M12 3c1 3-2 4-2 7a4 4 0 008 0c0-1-.5-2-1-3 .5 4-2 4-2 1 0-3-2-4-3-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+    'Storm surge':'<path d="M2 14c2-2 4-2 6 0s4 2 6 0 4-2 6 0M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0M7 9l3-5 3 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+    Flood:'<path d="M2 13c2-2 4-2 6 0s4 2 6 0 4-2 6 0M2 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0M12 3v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+    Heat:'<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    Wind:'<path d="M3 8h11a3 3 0 10-3-3M3 12h15a3 3 0 11-3 3M3 16h9a2.5 2.5 0 11-2.5 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    Freeze:'<path d="M12 2v20M4 7l16 10M20 7L4 17M12 6l-2.5-2M12 6l2.5-2M12 18l-2.5 2M12 18l2.5 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    Lightning:'<path d="M13 2L5 13h5l-1 9 8-12h-5l1-8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+    Earthquake:'<path d="M2 12h4l2-5 3 9 2.5-7 2 4h4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+    Landslide:'<path d="M3 20l6-9 4 4 7-9M3 20h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+  };
+  const grid = document.querySelector('.chips');
+  PERILS.forEach(p=>{
+    const c = document.createElement('div');
+    c.className='chip';
+    c.innerHTML = `<div class="ring" style="background:${p.tint};">
+        <span class="pin" style="background:${p.dot};"></span>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="color:${p.ink};">${ICONS[p.name]||''}</svg>
+      </div><div class="name">${p.name}</div>`;
+    grid.appendChild(c);
   });
 </script>
-    
-<body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <div class="logo-icon">G</div>
-                    <span>My Guardian</span>
-                </div>
-                <div class="nav-actions">
-                    <button id="newsletter-button" class="newsletter-button">
-                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                        </svg>
-                        Newsletter
-                    </button>
-                    <a href="https://calendly.com/rebeca-myguardian/20-minute-meeting" class="cta-button" target="_blank" rel="noopener noreferrer">
-                        Book a 20-min intro
-                    </a>
-                </div>
-            </nav>
-        </div>
-    </header>
 
-    <!-- Newsletter Modal -->
-    <div id="newsletter-modal" class="modal">
-        <div class="modal-content">
-            <button id="modal-close" class="modal-close">×</button>
-            <h3>Stay Updated</h3>
-            <p>Get the latest insights on loss prevention, climate risk, and insurance innovation.</p>
-            <form id="newsletter-form" class="newsletter-form">
-                <input 
-                    type="text" 
-                    id="newsletter-name" 
-                    name="name" 
-                    placeholder="First name" 
-                    required
-                />
-                <input 
-                    type="email" 
-                    id="newsletter-email" 
-                    name="email" 
-                    placeholder="Email address" 
-                    required
-                />
-                <button type="submit" class="newsletter-submit">Subscribe to Newsletter</button>
-            </form>
-        </div>
-    </div>
-
-    <main>
-        <section class="hero">
-            <div class="container">
-                <div class="badge">
-                    <svg class="badge-icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M13 7H7v6h6V7z"/>
-                        <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2zM5 5h10v10H5V5z"/>
-                    </svg>
-                    B2B SaaS for P&C carriers, agents and brokers
-                </div>
-                <h1>
-                    Stop paying millions for <br>
-                    Losses you could have <br>
-                    <span class="gradient-text">Prevented</span>
-                </h1>
-                <p class="subtitle">
-                    Give your underwriters real-time visibility into which policyholders take protective action before the storm hits. Carriers using prevention intelligence report 15-40% fewer weather-related claims. 
-                </p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="primary-button">Request early access →</a>
-                    <a href="https://calendly.com/rebeca-myguardian/20-minute-meeting" class="secondary-button">
-                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                        Book a 20-min intro
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="section problem-section">
-            <div class="container">
-                <div class="section-title">THE PROBLEM</div>
-                <h2>Right now, you're paying for damages<br>your insured could have avoided</h2>
-                <p class="section-subtitle">
-                    Weather alerts go out—hurricane, wildfire, freeze, hail. Your policyholders ignore them. Days later, you're paying seven-figure claims for losses that simple preventive actions could have stopped.
-                </p>
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd"/>
-                                <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"/>
-                            </svg>
-                        </div>
-                        <h3>Zero Visibility Before Loss</h3>
-                        <p>You have no idea who's protecting their property and who's not—until it's too late and the claim is filed</p>
-                        <p class="impact"> Average preventable loss: $18,000 per claim</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                        <h3>No Way to Incentivize Action</h3>
-                        <p>You can't reward protective behavior you can't see. Your best customers subsidize your worst—and you have no data to change it.</p>
-                        <p class="impact"> $6 saved for every $1 spent on prevention</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                        <h3>Can't Segment Risk</h3>
-                        <p>You're pricing risk based on static property data and ZIP codes—not on the behavior that actually determines whether someone files a claim.</p>
-                        <p class="impact"> Claims history is the single biggest driver of insurance costs</p>
-                    </div>
-                </div>
-
-                <div class="why-now">
-                    <h3>WHY NOW</h3>
-                    <h2>The Perfect Storm</h2>
-                    <div class="features-list">
-                        <div class="feature-item">
-                            <div class="checkmark">✓</div>
-                            <div>Prevention is becoming the business model</div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="checkmark">✓</div>
-                            <div>Customers demand personalized experience</div>
-                        </div>
-                        <div class="feature-item">
-                            <div class="checkmark">✓</div>
-                            <div>The technology just became viable</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section solution-section">
-            <div class="container">
-                <div class="section-title">THE SOLUTION</div>
-                <h2>Prevention intelligence at the<br>insured's fingertips</h2>
-                <p class="section-subtitle">
-                    My Guardian turns forecasts into insights. Insights into actions. Actions into savings.
-                </p>
-                <div class="numbered-grid">
-                    <div class="numbered-card">
-                        <div class="number-badge">2</div>
-                        <h3>They get relevant warnings</h3>
-                        <p>Location-based alerts tied to their actual exposures. Heavy rain coming? They know exactly what to protect and when.</p>
-                    </div>
-                    <div class="numbered-card">
-                        <div class="number-badge">3</div>
-                        <h3>They take targeted actions</h3>
-                        <p>Step-by-step guidance on storm prep, water shutoffs, tree trimming—the actions that actually prevent claims.</p>
-                    </div>
-                    <div class="numbered-card">
-                        <div class="number-badge">4</div>
-                        <h3>You capture proof of completion</h3>
-                        <p>For the first time, you know who's protecting their assets and who's not - before the loss.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section faq-section">
-            <div class="container">
-                <div class="section-title">COMMON QUESTIONS</div>
-                <h2>What insurers ask us</h2>
-                <div class="faq-container">
-                    <div class="faq-item">
-                        <div class="faq-question">How is this different from telematics or catastrophe modeling?</div>
-                        <div class="faq-answer">
-                            Cat models tell you what might happen. Telematics tells you how people drive. We tell you what protective actions your policyholders actually take before a loss event—and give them the tools to take more proactive behavior. It's behavioral data you can use for pricing, not just forecasting.
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">What if policyholders don't download the app?</div>
-                        <div class="faq-answer">
-                            You can incentivize adoption with premium discounts, deductible credits, or priority claims handling. The ROI is positive even at 30% adoption.
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">How do you handle data privacy and security?</div>
-                        <div class="faq-answer">
-                            We're SOC 2 Type II compliant with end-to-end encryption. Policyholders opt in explicitly, control what data they share, and can revoke access anytime.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!--
-        <section class="section steps-section">
-            <div class="container">
-                <div class="section-title">HOW IT WORKS</div>
-                <h2>Three steps to loss prevention ROI</h2>
-                <div class="steps-container">
-                    <div class="step">
-                        <div class="step-number">01</div>
-                        <h3>Integrate</h3>
-                        <p>Connect your policy data to our white-label platform in days, not months</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">02</div>
-                        <h3>Engage</h3>
-                        <p>Your insureds receive personalized warnings and recommended actions</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">03</div>
-                        <h3>Quantify</h3>
-                        <p>Track protective behavior and calculate savings from prevented losses</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        -->
-        
-        <section class="section">
-            <div class="container">
-                <div class="section-title">PRODUCT PREVIEW</div>
-                <h2>See My Guardian in action</h2>
-                <div class="product-preview">
-                  <img 
-                    src="assets/Mockup_landing_page.png"
-                    alt="My Guardian product mockup"
-                    style="width:90%; height:auto; display:block; margin:0 auto;"
-                  />
-                </div>
-            </div>
-        </section>
-
-        <!--
-        <section class="section testimonial-section">
-            <div class="container">
-                <div class="testimonial">
-                    <div class="quote-icon">"</div>
-                    <p class="testimonial-text">
-                        "I don't understand why this didn't exist."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">JM</div>
-                        <div class="author-info">
-                            <h4>James M.</h4>
-                            <p class="author-title">Investor</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-            -->
-
-        <!-- Credential Banner -->
-        <section class="credential-banner">
-            <div class="container">
-                <div class="credential-track">
-                    <div class="credential-item">
-                        <div class="credential-icon fi">🎓</div>
-                        <div>
-                            <div class="credential-type">Graduate</div>
-                            <div class="credential-name">Founder Institute</div>
-                        </div>
-                        <div class="credential-dot"></div>
-                    </div>
-
-                    <span class="credential-separator">·</span>
-
-                    <div class="credential-item">
-                        <div class="credential-icon bu">⚡</div>
-                        <div>
-                            <div class="credential-type">Accepted</div>
-                            <div class="credential-name">Beta University</div>
-                        </div>
-                        <div class="credential-dot" style="animation-delay: 1s;"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="team-section">
-            <div class="container">
-                <div class="section-title">WHO WE ARE</div>
-                <h2>Built by experts who understand your business</h2>
-                <div class="team-grid">
-                    <div class="team-card">
-                        <div class="team-header">
-                            <img src="assets/rebeca.png" alt="Rebeca Gomez" class="avatar-img">
-                            <div class="team-info">
-                                <h3>Rebeca Gomez</h3>
-                                <div class="team-role">Founder & CEO</div>
-                            </div>
-                        </div>
-                        <ul class="credentials">
-                            <li>Ph.D. in Climate Risk Assessment</li>
-                            <li>11+ years ML experience in climate & weather</li>
-                            <li>0→1 product builder in AI & data solutions</li>
-                        </ul>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-header">
-                            <img src="assets/phil.jpeg" alt="Phil LeGrone" class="avatar-img">
-                            <div class="team-info">
-                                <h3>Phil LeGrone</h3>
-                                <div class="team-role">Advisor – Insurance</div>
-                            </div>
-                        </div>
-                        <ul class="credentials">
-                            <li>30+ years in insurance industry - from underwriting to executive leadership</li>
-                            <li>Deep relationships across regional and national carriers, agents and brokers</li>
-                            <li>Strategic guidance on product-market fit, pricing, and partnerships</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact-section" id="contact">
-            <div class="container">
-                <div class="form-container">
-                    <h2>Ready to turn forecasts into savings?</h2>
-                    <p class="section-subtitle">
-                        Join forward-thinking P&C carriers who are building the future of loss prevention.
-                    </p>
-                    <form id="klaviyo-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="company" name="company" placeholder="Company" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Work email" required>
-                        </div>
-                        <button type="submit" class="submit-button">Request early access →</button>
-                    </form>
-                    <div class="contact-info">
-                        <a href="/cdn-cgi/l/email-protection#12607770777173527f6b75677360767b737c3c6677717a" class="contact-link">
-                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            <span class="__cf_email__" data-cfemail="ed9f888f888e8cad80948a988c9f89848c83c399888e85">[email&#160;protected]</span>
-                        </a>
-                        <a href="https://calendly.com/rebeca-myguardian/20-minute-meeting" target="_blank" rel="noopener noreferrer" class="contact-link">
-                            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            Book a 20-min intro
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p class="copyright">&copy; 2025 My Guardian. All rights reserved.</p>
-            <p class="recaptcha-notice">
-                This site is protected by reCAPTCHA and the Google
-                <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
-                <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.
-            </p>
-        </div>
-    </footer>
 </body>
-</html></
-
+</html>
