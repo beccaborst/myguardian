@@ -109,8 +109,8 @@
   /* you-section */
   .you{background:var(--bg);border-top:1px solid var(--line);}
   .you h2{font-size:52px;max-width:720px;margin-bottom:18px;}
-  .you .lead{font-size:17px;color:var(--ink-soft);max-width:800px;line-height:1.55;margin-bottom:56px;}
-  .heroes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;}
+  .you .lead{font-size:17px;color:var(--ink-soft);max-width:600px;line-height:1.55;margin-bottom:56px;}
+  .heroes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:48px;}
   .hcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:30px 28px;position:relative;overflow:hidden;}
   .hcard .top{position:absolute;top:0;left:0;right:0;height:5px;}
   .hcard .ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
@@ -203,7 +203,7 @@
       <a href="#you">Is this you?</a>
       <a href="#coverage">What it covers</a>
       <a href="#product">The app</a>
-      <a href="#brokers">For brokers</a>
+      <a href="brokers.html">For brokers</a>
     </div>
     <button class="pill blue sm" onclick="openHomeownerForm(event)">I want this for my home</button>
   </div>
@@ -216,7 +216,7 @@
       <div>
         <div class="eyebrow-soft fade d1">For everyone who got the keys of their new home, but not a manual.</div>
         <h1 class="fade d1">Protect the biggest investment of your&nbsp;<span class="em">life</span>.</h1>
-        <p class="sub fade d2">There are a few things that would protect your home before the next storm. Do you know what they are?</p>
+        <p class="sub fade d2">There are a few things that would protect your home before the next catastrophic event. Do you know what they are?</p>
         <p class="body fade d3">My Guardian hands you the short list of what actually matters, for your home, in plain language, before weather hits, and helps you recover faster and more confidently.</p>
         <div class="cta fade d4">
           <button class="pill blue lg" onclick="openHomeownerForm(event)">
@@ -237,7 +237,7 @@
         <div class="phone">
           <div class="notch"></div>
           <div class="screen">
-            <img class="hero-shot" src="assets/hero.png" alt="My Guardian home screen" onerror="this.remove()">
+            <img class="hero-shot" src="hero.png" alt="My Guardian home screen" onerror="this.remove()">
             <div class="pad">
               <div class="loc"><span class="dot"></span>Your home · Calm today</div>
               <div class="greet">Good morning.<br><span class="light">Nothing urgent.</span></div>
@@ -280,7 +280,7 @@
 <section id="you" class="you sec-pad">
   <div class="wrap">
     <div class="tracked" style="margin-bottom:14px;">Is this you?</div>
-    <h2>If any of these is you, you're not <span class="em">alone</span>.</h2>
+    <h2>If any of these is you, you're not <span class="em">behind</span>.</h2>
     <p class="lead">Nobody hands you a manual when you get the keys. Here's who we built this for.</p>
     <div class="heroes">
       <article class="hcard">
@@ -305,7 +305,15 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21V8l5-4 5 4M13 21V11l4-3 4 3v10M3 21h18M6.5 13v3M17.5 14v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h3>The landlord</h3>
-        <p>You own a few properties, in a few climates, and you can't be everywhere at once. Each one needs attention at a different time.</p>
+        <p>You own a few properties, in a few geographies, and you can't be everywhere at once. Each one needs attention at a different time.</p>
+      </article>
+      <article class="hcard">
+        <div class="top" style="background:#5BA88A;"></div>
+        <div class="ic" style="background:#D9EBE2;color:#234D3C;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l6-5 6 5v11M4 21h12M8 21v-5h4v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18.5" cy="6" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>
+        </div>
+        <h3>The vacation owner</h3>
+        <p>The cabin or the beach house was supposed to be the easy one. Instead it sits empty through the exact months that test it hardest.</p>
       </article>
     </div>
     <div class="statline">
@@ -337,8 +345,11 @@
       <div>Sources · NWS · NOAA · USGS · CAL FIRE · IBHS · NHC</div>
       <div class="italic">…and the ones that haven't been named yet.</div>
     </div>
-    <div style="margin-top:32px;">
-      <a class="pill blue lg" href="hazards.html" target="_blank" rel="noopener">Explore the hazards map &#8599;</a>
+    <div style="margin-top:28px;">
+      <a class="pill ghost sm" href="hazards.html">
+        Explore the hazards map
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="margin-left:2px;"><path d="M3 9L9 3M9 3H4M9 3v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -356,7 +367,7 @@
         <div class="gphone">
           <div class="gnotch"></div>
           <div class="gscreen">
-            <img class="gshot" src="assets/seasons.png" alt="Seasonal screen" onerror="this.remove()">
+            <img class="gshot" src="seasons.png" alt="Seasonal screen" onerror="this.remove()">
             <div class="ph">
               <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 13c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 18c2-2 4-2 6 0s4 2 6 0 4-2 6 0M12 3v6" stroke="#2E5BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="lab">Seasonal</div>
@@ -374,7 +385,7 @@
         <div class="gphone">
           <div class="gnotch"></div>
           <div class="gscreen">
-            <img class="gshot" src="assets/calm.png" alt="Calm home screen" onerror="this.remove()">
+            <img class="gshot" src="calm.png" alt="Calm home screen" onerror="this.remove()">
             <div class="ph">
               <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 11l7-6 7 6M6.5 9.5V19h11V9.5" stroke="#2E5BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
               <div class="lab">Home, calm</div>
@@ -392,7 +403,7 @@
         <div class="gphone">
           <div class="gnotch"></div>
           <div class="gscreen">
-            <img class="gshot" src="assets/event_warning.png" alt="Active event screen" onerror="this.remove()">
+            <img class="gshot" src="event_warning.png" alt="Active event screen" onerror="this.remove()">
             <div class="ph">
               <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 8h11a3 3 0 10-3-3M3 12h15a3 3 0 11-3 3M3 16h9a2.5 2.5 0 11-2.5 2.5" stroke="#2E5BFF" stroke-width="1.6" stroke-linecap="round"/></svg></div>
               <div class="lab">Active event</div>
@@ -419,7 +430,7 @@
   .seam p .soft{color:var(--ink-mute);}
 
   /* broker */
-  .broker{background:var(--bg);padding:104px 0 120px;}
+  .broker{background:var(--bg);padding:8px 0 120px;}
   .broker .head{max-width:760px;margin-bottom:52px;}
   .broker h2{font-size:50px;margin-bottom:20px;}
   .broker .intro{font-size:17px;color:var(--ink-soft);max-width:600px;line-height:1.55;}
@@ -496,83 +507,6 @@
   @media(max-width:900px){.faq-cols{grid-template-columns:1fr;gap:32px;}.faq h2{font-size:34px;}}
 </style>
 
-<!-- SEAM removed as overkill; broker turn now announced by the section label below -->
-
-<!-- BROKER -->
-<section id="brokers" class="broker">
-  <div class="wrap">
-    <div class="head">
-      <div class="tracked" style="margin-bottom:14px;">For brokers and agencies</div>
-      <h2>You see them once a year. Now you're with them <span class="em">all year</span>.</h2>
-      <p class="intro">A renewal notice is the only time most clients hear from their broker. My Guardian puts your brand in their hands every season, doing the one thing they actually want. Telling them how to protect the home before the weather hits.</p>
-    </div>
-    <div class="broker-lines">
-      <div class="pline">
-        <div class="rule"></div>
-        <h4>To most clients, one broker looks like the next.</h4>
-        <p>That's why they shop on price. Nothing tells you apart. Give them something genuinely useful between renewals and you stop being a quote to compare.</p>
-      </div>
-      <div class="pline">
-        <div class="rule"></div>
-        <h4>Every other broker sends a reminder. You send a guardian.</h4>
-        <p>You're the one who helped them get the house ready before the weather turned.</p>
-      </div>
-      <div class="pline">
-        <div class="rule"></div>
-        <h4>Hardest to replace where it counts.</h4>
-        <p>The multi-property owners, the higher-value homes, the clients who travel and worry about the place they left empty. The ones a competitor most wants to poach become the ones least likely to leave.</p>
-      </div>
-    </div>
-    <div class="broker-cta">
-      <div>
-        <h3>See it with your name on it.</h3>
-        <p>Twenty minutes. We'll show you the app in your brand, and where in your book it earns its keep first.</p>
-        <div class="micro">No deck unless you ask.</div>
-      </div>
-      <button class="pill blue lg" onclick="openBrokerForm(event)">
-        <svg class="play" viewBox="0 0 7 8" fill="none"><path d="M0 0l7 4-7 4z" fill="currentColor"/></svg>
-        Book a 20-min intro
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<section class="stats sec-pad">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <div class="tracked">The case, in numbers</div>
-        <h2>The clients are the same. Keeping them is the <span class="em" style="color:#8FA6FF;">variable</span>.</h2>
-      </div>
-      <p class="note">We cite our sources. Anything we cannot cite, we soften, and tell you so.</p>
-    </div>
-    <div class="statgrid">
-      <div class="cell">
-        <div class="n">9&times;</div>
-        <div class="l">What it costs to win a new client, versus keep one. The gap in insurance is wider than other industries.</div>
-        <div class="s">Source · One Inc</div>
-      </div>
-      <div class="cell">
-        <div class="n">25-95%</div>
-        <div class="l">More profit from lifting client retention just five points.</div>
-        <div class="s">Source · Harvard Business Review</div>
-      </div>
-      <div class="cell">
-        <div class="n">84&rarr;95%</div>
-        <div class="l">Where an average agency holds, versus where the top agencies hold. The gap is the opening.</div>
-        <div class="s">Source · Industry data</div>
-      </div>
-      <div class="cell">
-        <div class="n">No. 1</div>
-        <div class="l">Insurance carries the highest customer acquisition cost of any industry. Losing a client hurts here more than almost anywhere.</div>
-        <div class="s">Source · Industry data</div>
-      </div>
-    </div>
-    <p class="closer">A sustained five-point lift in retention doubles an agency's profit over five years. That is the whole pitch, and it is a retention instrument.</p>
-  </div>
-</section>
-
 <!-- TEAM -->
 <section class="team sec-pad">
   <div class="wrap">
@@ -582,7 +516,7 @@
     </div>
     <div class="team-grid">
       <article class="pcard">
-        <div class="av"><img src="assets/rebeca.png" alt="Rebeca Gomez" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'RG'}))"></div>
+        <div class="av"><img src="rebeca.png" alt="Rebeca Gomez" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'RG'}))"></div>
         <div>
           <div class="tracked role" style="font-size:10.5px;">Founder &amp; CEO</div>
           <h3>Rebeca Gomez</h3>
@@ -594,14 +528,14 @@
         </div>
       </article>
       <article class="pcard">
-        <div class="av"><img src="assets/phil.jpeg" alt="Phil LeGrone" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'PL'}))"></div>
+        <div class="av"><img src="phil.jpeg" alt="Phil LeGrone" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'PL'}))"></div>
         <div>
           <div class="tracked role" style="font-size:10.5px;">Advisor · Insurance</div>
           <h3>Phil LeGrone</h3>
           <ul>
-            <li>30+ years in P&amp;C, underwriting to executive</li>
-            <li>Relationships across carriers, brokers and MGAs</li>
-            <li>Pricing and partnership strategy</li>
+            <li>35+ years in risk and insurance across product management, product development, and consulting</li>
+            <li>Roles with carriers, risk analytics providers, MGAs, insurtechs, and advisory firms</li>
+            <li>Currently consults for insurtechs at various stages</li>
           </ul>
         </div>
       </article>
@@ -700,9 +634,9 @@
         </div>
         <div class="col">
           <h5>For brokers</h5>
-          <a href="#brokers">The case</a>
-          <a href="#">Book a call</a>
-          <a href="#">Co-brand</a>
+          <a href="brokers.html">The case</a>
+          <a href="brokers.html#numbers">In numbers</a>
+          <a href="brokers.html">Co-brand</a>
         </div>
         <div class="col">
           <h5>Company</h5>
