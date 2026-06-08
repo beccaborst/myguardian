@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -287,6 +288,9 @@
   .bhero .trust{justify-content:center;}
   @media(max-width:900px){.bhero{padding:60px 0 56px;}.bhero h1{font-size:42px;letter-spacing:-1.4px;}}
   #case .pline h4{color:var(--accent);}
+  .proofgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;max-width:720px;margin:60px auto 0;}
+  #proof .gphone{width:100%;max-width:289px;}
+  @media(max-width:560px){.proofgrid{gap:14px;}.gcap{max-width:none;}}
 </style>
 
 <!-- NAV -->
@@ -369,7 +373,7 @@
       <h2>Your brand in their hands, and <span class="em">proof</span> it worked.</h2>
     </div>
     <p class="scope">Other apps send a nudge and hope. My Guardian shows up in your name right before the storm, then confirms the work got done.</p>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:48px;max-width:720px;margin:60px auto 0;">
+    <div class="proofgrid">
       <div class="gcol">
         <div class="gphone">
           <div class="gnotch"></div>
