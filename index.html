@@ -57,7 +57,14 @@
   .nav-links{display:flex;align-items:center;gap:30px;}
   .nav-links a{font-size:14px;color:var(--ink-soft);font-weight:500;}
   .nav-links a:hover{color:var(--ink);}
-  @media(max-width:860px){.nav-links{display:none;}}
+  .nav-cta-desktop{display:inline-flex;}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:8px;-webkit-tap-highlight-color:transparent;}
+  .burger svg{display:block;}
+  .mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(241,243,247,.98);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line);padding:8px 24px 20px;flex-direction:column;gap:4px;z-index:49;}
+  .mobile-menu a{display:block;font-size:16px;color:var(--ink-soft);font-weight:500;padding:12px 0;border-bottom:1px solid var(--line);}
+  .mobile-menu a:last-of-type{border-bottom:none;}
+  .mobile-menu .mob-cta{margin-top:12px;}
+  @media(max-width:860px){.nav-links{display:none;}.nav-cta-desktop{display:none;}.burger{display:block;}.mobile-menu.open{display:flex;}}
 
   /* hero */
   header{background:var(--bg);position:relative;overflow:hidden;}
@@ -206,7 +213,19 @@
       <a href="#product">The app</a>
       <a href="brokers.html">For brokers</a>
     </div>
-    <button class="pill blue sm" onclick="openHomeownerForm(event)">I want this for my home</button>
+    <button class="pill blue sm nav-cta-desktop" onclick="openHomeownerForm(event)">I want this for my home</button>
+    <button class="burger" aria-label="Menu" aria-expanded="false" onclick="toggleMobileMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#you" onclick="closeMobileMenu()">Is this you?</a>
+      <a href="#coverage" onclick="closeMobileMenu()">What it covers</a>
+      <a href="#product" onclick="closeMobileMenu()">The app</a>
+      <a href="brokers.html">For brokers</a>
+      <div class="mob-cta">
+        <button class="pill blue sm" style="width:100%;justify-content:center;" onclick="openHomeownerForm(event);closeMobileMenu();">I want this for my home</button>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -673,6 +692,26 @@
       window._klOnsite = window._klOnsite || [];
       window._klOnsite.push(['openForm','YepEtH']);
     },300);
+  }
+
+  // Mobile menu toggle
+  function toggleMobileMenu(){
+    var menu = document.getElementById('mobileMenu');
+    var btn = document.querySelector('.burger');
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    if(open){
+      btn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></svg>';
+    } else {
+      btn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></svg>';
+    }
+  }
+  function closeMobileMenu(){
+    var menu = document.getElementById('mobileMenu');
+    var btn = document.querySelector('.burger');
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/></svg>';
   }
 
   // Coverage chips, tints sampled from the live app
