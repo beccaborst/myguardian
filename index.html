@@ -8,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Klaviyo: preserves the existing backend (company S3gSbG). Forms: homeowner RsYs7k, broker YepEtH -->
-<script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=S3gSbG"></script>
 <style>
   :root{
     --bg:#F1F3F7;
@@ -723,7 +721,6 @@
 </footer>
 
 <script>
-  // Broker form still opens the Klaviyo popup until it moves too.
   // Homeowner signup: our own modal, sent to Kit form 10055874
   var KIT_HOMEOWNER_URL = 'https://app.kit.com/forms/10055874/subscriptions';
   function openHomeownerForm(event){
@@ -770,12 +767,7 @@
 
   function openBrokerForm(event){
     if(event) event.preventDefault();
-    window._klOnsite = window._klOnsite || [];
-    window._klOnsite.push(['openForm','YepEtH']);
-    setTimeout(function(){
-      window._klOnsite = window._klOnsite || [];
-      window._klOnsite.push(['openForm','YepEtH']);
-    },300);
+    window.open('https://calendly.com/rebeca-myguardian/20-minute-meeting', '_blank', 'noopener');
   }
 
   // Mobile menu toggle
