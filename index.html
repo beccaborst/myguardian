@@ -646,7 +646,7 @@
       <p class="payoff-line">You shouldn't need to become an expert in roofs, floods and wildfire to keep your family safe. You just need someone <span class="em">watching</span>.</p>
       <p>Homeowners, add your name and we'll tell you when it reaches your area, and how to ask your insurer for it. Brokers, take twenty minutes to see it in your brand.</p>
       <div class="cta">
-        <button class="pill blue lg" onclick="openHomeownerForm(event)">Add my home to the list</button>
+        <button class="pill blue lg" onclick="openHomeownerForm(event)">Join the waitlist</button>
         <button class="pill ghost lg" onclick="openBrokerForm(event)">Book a 20-min intro</button>
       </div>
       <div class="micro">No deck unless you ask. No follow-up unless you say yes.</div>
@@ -660,9 +660,9 @@
   <div class="mg-card">
     <button type="button" class="mg-close" aria-label="Close" onclick="closeHomeownerForm()">&times;</button>
     <div id="homeownerFormWrap">
-      <div class="tracked">Early access</div>
-      <h3 id="homeownerTitle">Add your home to the <span class="em">list</span>.</h3>
-      <p class="mg-sub">We'll let you know when My Guardian is ready for your area.</p>
+      <div class="tracked">Waitlist</div>
+      <h3 id="homeownerTitle">Join the <span class="em">waitlist</span>.</h3>
+      <p class="mg-sub">We'll email you when My Guardian is ready for your area.</p>
       <form id="homeownerForm" novalidate>
         <label class="mg-field"><span>Name <em>(optional)</em></span>
           <input type="text" name="first_name" autocomplete="given-name"></label>
@@ -672,14 +672,14 @@
           <input type="text" name="fields[zip_code]" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label>
         <input type="hidden" name="tags[]" value="24705507"><!-- Kit tag: Homeowners Waitlist -->
         <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"><label>Leave this empty <input type="text" name="mg_website" tabindex="-1" autocomplete="off"></label></div>
-        <button type="submit" class="pill blue lg mg-submit">Add my home</button>
+        <button type="submit" class="pill blue lg mg-submit">Add me to the waitlist</button>
         <div class="mg-msg" role="status" aria-live="polite"></div>
       </form>
     </div>
     <div id="homeownerDone" hidden>
-      <div class="tracked">You're on the list</div>
-      <h3>Thanks. We'll be in <span class="em">touch</span>.</h3>
-      <p class="mg-sub">Check your inbox to confirm your spot on the waitlist.</p>
+      <div class="tracked">One more step</div>
+      <h3>Check your <span class="em">inbox</span>.</h3>
+      <p class="mg-sub">Click the link in our email to confirm your spot on the waitlist.</p>
       <button type="button" class="pill ghost lg mg-submit" onclick="closeHomeownerForm()">Close</button>
     </div>
   </div>
@@ -764,7 +764,7 @@
           msg.className = 'mg-msg err';
           msg.textContent = 'Something went wrong. Please try again.';
         })
-        .then(function(){ btn.disabled = false; btn.textContent = 'Add my home'; });
+        .then(function(){ btn.disabled = false; btn.textContent = 'Add me to the waitlist'; });
     });
   })();
 
