@@ -670,6 +670,7 @@
           <input type="email" name="email_address" autocomplete="email" required></label>
         <label class="mg-field"><span>Zip code</span>
           <input type="text" name="fields[zip_code]" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"><label>Leave this empty <input type="text" name="mg_website" tabindex="-1" autocomplete="off"></label></div>
         <button type="submit" class="pill blue lg mg-submit">Add my home</button>
         <div class="mg-msg" role="status" aria-live="polite"></div>
       </form>
@@ -747,8 +748,11 @@
       var zip = form.elements['fields[zip_code]'].value.trim();
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.className='mg-msg err'; msg.textContent='Enter a valid email.'; return; }
       if(!/^[0-9]{5}$/.test(zip)){ msg.className='mg-msg err'; msg.textContent='Enter a 5-digit zip code.'; return; }
+      // Bot trap: people never see this field, so a filled value means a bot. Show success without sending.
+      if(form.mg_website.value){ document.getElementById('homeownerFormWrap').hidden = true; document.getElementById('homeownerDone').hidden = false; return; }
+      var data = new FormData(form); data.delete('mg_website');
       btn.disabled = true; btn.textContent = 'Adding...';
-      fetch(KIT_HOMEOWNER_URL, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form) })
+      fetch(KIT_HOMEOWNER_URL, { method:'POST', headers:{'Accept':'application/json'}, body:data })
         .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return {ok:r.ok, j:j}; }); })
         .then(function(res){
           if(!res.ok || (res.j && res.j.status && res.j.status !== 'success')) throw new Error('bad');
