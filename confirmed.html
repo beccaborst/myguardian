@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>My Guardian · You're on the waitlist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F3F7; --surface:#FFFFFF; --ink:#0F1B2E; --ink-soft:#4A5868; --ink-mute:#8595A8;
+    --line:rgba(15,27,46,0.08); --line-strong:rgba(15,27,46,0.16);
+    --accent:#2E5BFF; --accent-soft:#DCE2FF;
+    --serif:'Fraunces','Newsreader',Georgia,serif;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh;display:flex;flex-direction:column;}
+  a{color:inherit;text-decoration:none;}
+  nav{border-bottom:1px solid var(--line);}
+  .nav-row{display:flex;align-items:center;padding:16px 40px;max-width:1240px;margin:0 auto;}
+  .brand-logo{height:60px;width:auto;border-radius:8px;display:block;}
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 16px;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:44px 40px;max-width:560px;width:100%;box-shadow:0 18px 40px -28px rgba(15,27,46,.4);}
+  .tracked{font-size:11px;letter-spacing:1.8px;font-weight:600;text-transform:uppercase;color:var(--ink-mute);}
+  h1{font-family:var(--serif);font-weight:500;font-size:44px;letter-spacing:-1.2px;line-height:1.06;margin:12px 0 16px;}
+  .em{font-style:italic;font-weight:500;color:var(--accent);font-variation-settings:"opsz" 144,"SOFT" 80;}
+  p{color:var(--ink-soft);font-size:16.5px;margin-bottom:12px;}
+  .pill{display:inline-flex;align-items:center;font-weight:600;border-radius:999px;padding:15px 26px;font-size:15px;margin-top:18px;background:var(--accent);color:#fff;box-shadow:0 8px 22px -10px rgba(46,91,255,.7);transition:transform .18s ease;}
+  .pill:hover{transform:translateY(-1px);}
+  footer{text-align:center;padding:24px 16px;font-size:12px;color:var(--ink-mute);}
+  @media (max-width:600px){
+    .nav-row{padding:14px 24px;}
+    .brand-logo{height:48px;}
+    .card{padding:32px 24px;}
+    h1{font-size:34px;}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-row">
+    <a href="index.html"><img src="assets/logo-nav.png" alt="My Guardian" class="brand-logo"></a>
+  </div>
+</nav>
+<main>
+  <div class="card">
+    <div class="tracked">Waitlist · Confirmed</div>
+    <h1>You're on the <span class="em">waitlist</span>.</h1>
+    <p>Thanks for confirming. We'll email you when My Guardian is ready for your area.</p>
+    <p>Until then, nothing else to do.</p>
+    <a class="pill" href="index.html">Back to My Guardian</a>
+  </div>
+</main>
+<footer>&copy; 2026 My Guardian &middot; All rights reserved &middot; Patent pending</footer>
+</body>
+</html>
