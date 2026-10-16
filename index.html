@@ -197,6 +197,25 @@
     .nav-row{padding:14px 24px;}
     .statline .big{font-size:64px;}
   }
+
+  /* homeowner signup modal (Kit) */
+  .mg-dialog{border:0;padding:0;background:transparent;max-width:min(460px,calc(100vw - 32px));width:100%;margin:auto;}
+  .mg-dialog::backdrop{background:rgba(15,27,46,.45);}
+  .mg-card{background:var(--surface);border-radius:22px;padding:32px 30px 28px;box-shadow:0 18px 40px -28px rgba(15,27,46,.4);position:relative;}
+  .mg-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:999px;border:0;background:transparent;color:var(--ink-mute);font-size:22px;line-height:1;cursor:pointer;}
+  .mg-close:hover{background:var(--surface-alt);color:var(--ink);}
+  .mg-card h3{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.4px;line-height:1.1;margin:8px 0 10px;color:var(--ink);}
+  .mg-card p.mg-sub{color:var(--ink-soft);font-size:15px;margin-bottom:22px;}
+  .mg-field{display:block;margin-bottom:14px;}
+  .mg-field span{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+  .mg-field span em{font-style:normal;font-weight:500;color:var(--ink-mute);}
+  .mg-field input{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line-strong);border-radius:12px;padding:12px 14px;}
+  .mg-field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+  .mg-submit{width:100%;justify-content:center;margin-top:8px;}
+  .mg-submit[disabled]{opacity:.6;cursor:default;transform:none;}
+  .mg-msg{font-size:14px;color:var(--ink-soft);margin-top:12px;min-height:1em;}
+  .mg-msg.err{color:#B3261E;}
+  .mg-fine{font-size:12px;color:var(--ink-mute);margin-top:14px;}
 </style>
 </head>
 <body>
@@ -636,6 +655,34 @@
 </section>
 
 <!-- FOOTER -->
+
+<dialog id="homeownerDialog" class="mg-dialog" aria-labelledby="homeownerTitle">
+  <div class="mg-card">
+    <button type="button" class="mg-close" aria-label="Close" onclick="closeHomeownerForm()">&times;</button>
+    <div id="homeownerFormWrap">
+      <div class="tracked">Early access</div>
+      <h3 id="homeownerTitle">Add your home to the <span class="em">list</span>.</h3>
+      <p class="mg-sub">We'll let you know when My Guardian is ready for your area.</p>
+      <form id="homeownerForm" novalidate>
+        <label class="mg-field"><span>Name <em>(optional)</em></span>
+          <input type="text" name="first_name" autocomplete="given-name"></label>
+        <label class="mg-field"><span>Email</span>
+          <input type="email" name="email_address" autocomplete="email" required></label>
+        <label class="mg-field"><span>Zip code</span>
+          <input type="text" name="fields[zip_code]" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label>
+        <button type="submit" class="pill blue lg mg-submit">Add my home</button>
+        <div class="mg-msg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+    <div id="homeownerDone" hidden>
+      <div class="tracked">You're on the list</div>
+      <h3>Thanks. We'll be in <span class="em">touch</span>.</h3>
+      <p class="mg-sub">Check your inbox to confirm your email.</p>
+      <button type="button" class="pill ghost lg mg-submit" onclick="closeHomeownerForm()">Close</button>
+    </div>
+  </div>
+</dialog>
+
 <footer>
   <div class="wrap">
     <div class="foot-row">
@@ -674,16 +721,48 @@
 </footer>
 
 <script>
-  // Klaviyo form triggers (popups, opened by buttons). Mirrors the existing openForm pattern.
+  // Broker form still opens the Klaviyo popup until it moves too.
+  // Homeowner signup: our own modal, sent to Kit form 10055874
+  var KIT_HOMEOWNER_URL = 'https://app.kit.com/forms/10055874/subscriptions';
   function openHomeownerForm(event){
     if(event) event.preventDefault();
-    window._klOnsite = window._klOnsite || [];
-    window._klOnsite.push(['openForm','RsYs7k']);
-    setTimeout(function(){
-      window._klOnsite = window._klOnsite || [];
-      window._klOnsite.push(['openForm','RsYs7k']);
-    },300);
+    var d = document.getElementById('homeownerDialog');
+    if(d && d.showModal){ d.showModal(); var f = d.querySelector('input[name="email_address"]'); if(f) f.focus(); }
   }
+  function closeHomeownerForm(){
+    var d = document.getElementById('homeownerDialog');
+    if(d && d.open) d.close();
+  }
+  (function(){
+    var d = document.getElementById('homeownerDialog');
+    if(!d) return;
+    d.addEventListener('click', function(e){ if(e.target === d) d.close(); });
+    var form = document.getElementById('homeownerForm');
+    var msg = form.querySelector('.mg-msg');
+    var btn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      msg.className = 'mg-msg'; msg.textContent = '';
+      var email = form.email_address.value.trim();
+      var zip = form.elements['fields[zip_code]'].value.trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.className='mg-msg err'; msg.textContent='Enter a valid email.'; return; }
+      if(!/^[0-9]{5}$/.test(zip)){ msg.className='mg-msg err'; msg.textContent='Enter a 5-digit zip code.'; return; }
+      btn.disabled = true; btn.textContent = 'Adding...';
+      fetch(KIT_HOMEOWNER_URL, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form) })
+        .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return {ok:r.ok, j:j}; }); })
+        .then(function(res){
+          if(!res.ok || (res.j && res.j.status && res.j.status !== 'success')) throw new Error('bad');
+          document.getElementById('homeownerFormWrap').hidden = true;
+          document.getElementById('homeownerDone').hidden = false;
+        })
+        .catch(function(){
+          msg.className = 'mg-msg err';
+          msg.textContent = 'Something went wrong. Please try again.';
+        })
+        .then(function(){ btn.disabled = false; btn.textContent = 'Add my home'; });
+    });
+  })();
+
   function openBrokerForm(event){
     if(event) event.preventDefault();
     window._klOnsite = window._klOnsite || [];
