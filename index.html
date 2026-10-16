@@ -670,6 +670,7 @@
           <input type="email" name="email_address" autocomplete="email" required></label>
         <label class="mg-field"><span>Zip code</span>
           <input type="text" name="fields[zip_code]" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label>
+        <input type="hidden" name="tags[]" value="24705507"><!-- Kit tag: Homeowners Waitlist -->
         <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"><label>Leave this empty <input type="text" name="mg_website" tabindex="-1" autocomplete="off"></label></div>
         <button type="submit" class="pill blue lg mg-submit">Add my home</button>
         <div class="mg-msg" role="status" aria-live="polite"></div>
@@ -678,7 +679,7 @@
     <div id="homeownerDone" hidden>
       <div class="tracked">You're on the list</div>
       <h3>Thanks. We'll be in <span class="em">touch</span>.</h3>
-      <p class="mg-sub">Check your inbox to confirm your email.</p>
+      <p class="mg-sub">Check your inbox to confirm your spot on the waitlist.</p>
       <button type="button" class="pill ghost lg mg-submit" onclick="closeHomeownerForm()">Close</button>
     </div>
   </div>
